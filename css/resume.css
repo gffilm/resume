@@ -70,7 +70,8 @@ p.lead {
 }
 
 .dev-icons {
-  font-size: 3rem;
+  font-size: 1rem;
+  font-family: sans-serif;
 }
 
 .dev-icons .list-inline-item i:hover {
