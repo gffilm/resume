@@ -50,6 +50,11 @@ export const Story = (props) => {
     service.voice = voices[6];
     service.text = '';
     setSpeechService(service);
+     // Add an event listener to handle the end of speech
+    service.addEventListener('end', () => {
+      // Set the reading flag back to false when speech ends
+      setReading(false);
+    });
   }, [])
 
   useEffect(() => {
@@ -122,6 +127,7 @@ export const Story = (props) => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [speechService, setSpeechService] = useState(null);
+  const [reading, setReading] = useState(false);
 
   const nextLine = () => {
     if (currentIndex < state.story.length - 1) {
@@ -152,6 +158,7 @@ export const Story = (props) => {
   const readAll = () => {
     speechService.text = state.story[currentIndex];
     window.speechSynthesis.speak(speechService);
+    setReading(true);
   };
 
   if (!state.initialized) {
@@ -210,6 +217,7 @@ export const Story = (props) => {
 
               <Button
                 style={{ margin: '1rem' }}
+                disabled={reading}
                 variant="contained"
                 onClick={() => {
                   readAll();
