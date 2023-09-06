@@ -43,6 +43,15 @@ export const Story = (props) => {
   const { setHeader, updatedSettings } = props;
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    let service = new SpeechSynthesisUtterance(),
+    voices = speechSynthesis.getVoices();
+    service.voice = voices[6];
+    service.text = '';
+    setSpeechService(service);
+  }, [])
+
   useEffect(() => {
     if (!scenarioService.isInitialized()) {
       navigate("/");
@@ -112,6 +121,7 @@ export const Story = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [speechService, setSpeechService] = useState(null);
 
   const nextLine = () => {
     if (currentIndex < state.story.length - 1) {
@@ -126,7 +136,8 @@ export const Story = (props) => {
   };
 
   const readWord = (word) => {
-    console.log(`Read command for: ${word}`);
+    speechService.text = word.trim();
+    window.speechSynthesis.speak(speechService);
   };
 
   const recordAudio = (blob) => {
@@ -139,8 +150,9 @@ export const Story = (props) => {
   };
 
   const readAll = () => {
-    console.log(`Read all`);
-  }
+    speechService.text = state.story[currentIndex];
+    window.speechSynthesis.speak(speechService);
+  };
 
   if (!state.initialized) {
     return (

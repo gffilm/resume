@@ -12,7 +12,7 @@ export const Words = ({ text, onWordClick }) => {
           key={index}
           style={{
             cursor: "pointer",
-            padding: '.5rem',
+            padding: '.25rem',
             borderRadius: ".5rem",
             transition: "transform 0.3s ease, background-color 0.3s ease", // Add transitions for transform and background color
             display: "inline-block", // Ensure the span element is treated as a block-level element
