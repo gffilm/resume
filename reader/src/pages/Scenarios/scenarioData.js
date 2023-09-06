@@ -13,7 +13,7 @@ export const cards = [
     title: "Mystery",
     subtitle:
       "Solve a mystery",
-    selection: "funny",
+    selection: "mystery",
     image: "../images/mystery.jpg",
     active: true
   },

@@ -3,6 +3,34 @@
 	"situation": "Lorem ipsum",
 	"instructions": "Lorem ipsum",
 	"gptSituation": "Lorem ipsum",
-	"timeAllowed": 100,
-	"shotClockTimeAllowed": 100
+	"story": [
+	  "In the wacky town of Silly-Land, the funniest place on Earth,",
+	  "lived a boy named Benny, known for his crazy antics.",
+	  "One sunny morning, Benny woke up to find his bed",
+	  "had turned into a giant marshmallow! He bounced around",
+	  "the room, giggling uncontrollably, and then decided",
+	  "to have a marshmallow breakfast by taking bites",
+	  "out of his marshmallow bed.",
+	  "As he munched away, he heard a knock at the door.",
+	  "It was his pet penguin, Mr. Waddles, wearing a top hat",
+	  "and carrying a briefcase. Mr. Waddles announced that",
+	  "he had just been appointed mayor of Silly-Land!",
+	  "Benny couldn't stop laughing at the idea of a penguin mayor.",
+	  "Together, they embarked on a series of hilarious adventures,",
+	  "like building a roller coaster that went upside down",
+	  "and hosting a spaghetti-eating contest with the townsfolk.",
+	  "One day, they decided to have a marshmallow-themed parade.",
+	  "They floated down the streets on giant marshmallows,",
+	  "pelted each other with marshmallow snowballs,",
+	  "and even crowned the 'Marshmallow King and Queen.'",
+	  "The parade ended with a dance-off, where Benny and Mr. Waddles",
+	  "showed off their wackiest dance moves.",
+	  "As the sun set on Silly-Land, Benny and Mr. Waddles",
+	  "realized that laughter and silliness were the keys",
+	  "to happiness in their wonderfully absurd town.",
+	  "And so, they continued their adventures,",
+	  "spreading laughter and marshmallow madness",
+	  "to all the residents of Silly-Land."
+	]
+
 }
