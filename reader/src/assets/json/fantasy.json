@@ -1,0 +1,13 @@
+{
+	"title": "Fantasy",
+	"situation": "Lorem ipsum",
+	"instructions": "Lorem ipsum",
+	"gptSituation": "Lorem ipsum",
+	"timeAllowed": 100,
+	"shotClockTimeAllowed": 100,
+	"story": [
+		"Hi there",
+		"I am a story",
+		"The end"
+	]
+}
