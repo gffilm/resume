@@ -53,6 +53,8 @@ export const Scenarios = (props) => {
     navigate('/story/');
   };
 
+  console.log(settings)
+
   return !selectedCard ? (
     <>
       <Stack spacing={4}>
@@ -78,7 +80,7 @@ export const Scenarios = (props) => {
         <Card>
           <CardMedia
             sx={{ height: 240 }}
-            image={selectedCard.image}
+            image={`${settings.imagePath}/${selectedCard.image}`}
             title={selectedCard.title}
           />
           <CardContent>

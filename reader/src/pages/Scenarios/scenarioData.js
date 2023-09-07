@@ -5,7 +5,7 @@ export const cards = [
     subtitle:
       "Go on a wild journey full of adventure and fantasty",
     selection: "fantasy",
-    image: "../images/fantasy.jpg",
+    image: "../images/fantasy.png",
     active: true
   },
   {
@@ -14,7 +14,7 @@ export const cards = [
     subtitle:
       "Solve a mystery",
     selection: "mystery",
-    image: "../images/mystery.jpg",
+    image: "../images/mystery.png",
     active: true
   },
   {
@@ -23,7 +23,7 @@ export const cards = [
     subtitle:
       "Boo! In the mood for a scary story?",
     selection: "scary",
-    image: "../images/scary.jpg",
+    image: "../images/scary.png",
     active: true
   },
   {
