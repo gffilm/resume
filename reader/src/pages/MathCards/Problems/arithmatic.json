@@ -1,6 +1,6 @@
 [
   {
-    "problem": "If Sally has 5 red apples and gives 2 to her friend, how many red apples does Sally have left?",
+    "problem": "5 - 2 = ",
     "answer": "3"
   },
   {
@@ -8,7 +8,7 @@
     "answer": "6"
   },
   {
-    "problem": "John has 4 toy cars. He buys 2 more at the store. How many toy cars does John have now?",
+    "problem": "5 + 1 = ",
     "answer": "6"
   },
   {
@@ -16,7 +16,7 @@
     "answer": "4"
   },
   {
-    "problem": "There are 12 candies in a jar. If 5 candies are taken out, how many candies are left in the jar?",
+    "problem": "10 - 3 = ",
     "answer": "7"
   },
   {
@@ -24,7 +24,7 @@
     "answer": "6"
   },
   {
-    "problem": "Tom has 10 baseball cards. He trades 4 of them with his friend. How many baseball cards does Tom have left?",
+    "problem": "12 - 6 = ",
     "answer": "6"
   },
   {
@@ -32,7 +32,7 @@
     "answer": "6"
   },
   {
-    "problem": "There are 20 students in a class. If 7 students are absent, how many students are present in the class?",
+    "problem": "15 - 2 = ",
     "answer": "13"
   },
   {

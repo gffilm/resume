@@ -5,8 +5,7 @@ export const categories = [
     category: 'math',
     subtitle:
       "Go on a wild journey full of adventure with addition subtraction and multiplication",
-    selection: "fantasy",
-    image: "fantasy.png",
+    image: "math.png",
     active: true
   },
   {
@@ -14,9 +13,8 @@ export const categories = [
     title: "Reading",
     category: 'reading',
     subtitle:
-      "Solve a mystery",
-    selection: "mystery",
-    image: "mystery.png",
+      "Read a story",
+    image: "reading.jpg",
     active: true
   },
   {
@@ -24,9 +22,8 @@ export const categories = [
     category: 'history',
     title: "History",
     subtitle:
-      "Boo! In the mood for a scary story?",
-    selection: "scary",
-    image: "scary.png",
+      "Historical Times",
+    image: "history.jpg",
     active: false
   },
   {
@@ -34,9 +31,8 @@ export const categories = [
     title: "Science",
     category: 'science',
     subtitle:
-      "Silly time!",
-    selection: "silly",
-    image: "silly.jpg",
+      "Science time!",
+    image: "science.jpg",
     active: false
   },
 ];

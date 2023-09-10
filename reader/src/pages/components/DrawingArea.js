@@ -61,8 +61,8 @@ export const DrawingArea = () => {
     <div>
       <canvas
         ref={canvasRef}
-        width={1200} // Set the canvas width as needed
-        height={600} // Set the canvas height as needed
+        width={1000} // Set the canvas width as needed
+        height={450} // Set the canvas height as needed
         style={{
           border: "1px solid #000", // Add a border to the canvas
           cursor: "crosshair", // Change cursor to crosshair for drawing

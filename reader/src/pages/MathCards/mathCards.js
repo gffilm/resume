@@ -5,8 +5,7 @@ export const cards = [
     category: 'arithmatic',
     subtitle:
       "Practice Addition and Subtraction",
-    selection: "fantasy",
-    image: "fantasy.png",
+    image: "arithmatic.png",
     active: true
   },
   {
@@ -15,7 +14,6 @@ export const cards = [
     category: 'geomatry',
     subtitle:
       "Practice Shapes",
-    selection: "mystery",
     image: "mystery.png",
     active: false
   },
@@ -25,7 +23,6 @@ export const cards = [
     category: 'multiplication',
     subtitle:
       "Practice Multiplication",
-    selection: "scary",
     image: "scary.png",
     active: false
   },
@@ -35,7 +32,6 @@ export const cards = [
     category: 'division',
     subtitle:
       "Practice Division",
-    selection: "silly",
     image: "silly.jpg",
     active: false
   },
