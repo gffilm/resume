@@ -1,30 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@mui/material";
 
 export const Words = ({ text, onWordClick }) => {
   // Split the text into individual words
   const words = text.split(" ");
 
+  const [highlightedWords, setHighlightedWords] = useState([]);
+
+  const toggleHighlight = (word) => {
+    if (highlightedWords.includes(word)) {
+      // If the word is already highlighted, remove it from the list
+      setHighlightedWords((prevHighlightedWords) =>
+        prevHighlightedWords.filter((w) => w !== word)
+      );
+    } else {
+      // If the word is not highlighted, add it to the list
+      setHighlightedWords((prevHighlightedWords) => [
+        ...prevHighlightedWords,
+        word,
+      ]);
+    }
+  };
+
   return (
     <div>
       {words.map((word, index) => (
-          <span
+        <span
           key={index}
           style={{
             cursor: "pointer",
-            padding: '.25rem',
+            margin: "0.15rem",
+            padding: "0.3rem",
             borderRadius: ".5rem",
-            transition: "transform 0.3s ease, background-color 0.3s ease", // Add transitions for transform and background color
-            display: "inline-block", // Ensure the span element is treated as a block-level element
+            transition: "transform 0.3s ease, background-color 0.3s ease",
+            display: "inline-block",
+            fontSize: "0.8em",
+            backgroundColor: highlightedWords.includes(word) ? "yellow" : "transparent",
+            transform: highlightedWords.includes(word) ? "scale(1)" : "scale(1.1)",
           }}
-          onClick={() => onWordClick(word)}
+          onClick={() => {
+            toggleHighlight(word);
+            onWordClick(word);
+          }}
           onMouseEnter={(e) => {
-            e.target.style.backgroundColor = "#f0f0f0"; // Change background color on hover
-            e.target.style.transform = "scale(1.1)"; // Scale the word on hover
+            if (!highlightedWords.includes(word)) {
+              e.target.style.backgroundColor = "#eee"; // Maintain highlight color on hover
+              e.target.style.transform = "scale(1.1)";
+            }
           }}
           onMouseLeave={(e) => {
-            e.target.style.backgroundColor = "transparent"; // Reset background color on mouse leave
-            e.target.style.transform = "scale(1)"; // Reset scale on mouse leave
+            if (!highlightedWords.includes(word)) {
+              e.target.style.backgroundColor = "transparent";
+              e.target.style.transform = "scale(1)";
+            }
           }}
         >
           {word}
@@ -32,4 +60,4 @@ export const Words = ({ text, onWordClick }) => {
       ))}
     </div>
   );
-}
+};

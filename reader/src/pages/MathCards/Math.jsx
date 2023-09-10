@@ -26,7 +26,7 @@ const imgStyle = {
 
 export const MathCards = (props) => {
   useEffect(() => {
-    props.setHeader("Story Selection");
+    props.setHeader("Math Selection");
   }, [props]);
 
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export const MathCards = (props) => {
 
   const clickHandler = (card) => {
     scenarioService.setSituation(card.selection);
-    navigate('/addition/');
+    navigate(`/${card.category}/`);
   };
 
   return !selectedCard ? (

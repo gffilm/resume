@@ -5,6 +5,8 @@ import { Collapsible } from "./collapsible";
 import { NavBar } from "./NavBar";
 import { HTMLMarkdown } from "./htmlmarkdown";
 import { Words } from "./Words";
+import { DrawingArea } from "./DrawingArea";
+
 
 export {
   AudioPlayer,
@@ -14,5 +16,6 @@ export {
   ModalService,
   Collapsible,
   NavBar,
-  Words
+  Words,
+  DrawingArea
 };

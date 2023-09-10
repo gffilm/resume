@@ -40,7 +40,7 @@ export const Welcome = (props) => {
 
   return (
       <div style={{textAlign:"center"}}>
-          <h2>Welcome To Story Reader!</h2>
+          <h2>Welcome To Tutor!</h2>
           <div style={{ textAlign: 'center', margin: '3em' }}>
           {(loading &&
               <div style={{ textAlign: "center" }}>

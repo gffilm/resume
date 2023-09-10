@@ -40,20 +40,6 @@ export const Story = (props) => {
   const { setHeader, updatedSettings } = props;
   const navigate = useNavigate();
 
-
-  useEffect(() => {
-    let service = new SpeechSynthesisUtterance(),
-    voices = speechSynthesis.getVoices();
-    service.voice = voices[6];
-    service.text = '';
-    setSpeechService(service);
-     // Add an event listener to handle the end of speech
-    service.addEventListener('end', () => {
-      // Set the reading flag back to false when speech ends
-      setReading(false);
-    });
-  }, [])
-
   useEffect(() => {
     if (!scenarioService.isInitialized()) {
       navigate("/");
@@ -157,6 +143,28 @@ export const Story = (props) => {
     window.speechSynthesis.speak(speechService);
     setReading(true);
   };
+
+ useEffect(() => {
+  let service = new SpeechSynthesisUtterance();
+  let voices = [];
+
+  const loadVoices = () => {
+    voices = speechSynthesis.getVoices();
+    if (voices.length === 0) {
+      setTimeout(loadVoices, 100);
+    } else {
+      service.voice = voices[6];
+      service.text = '';
+      setSpeechService(service);
+    }
+  };
+
+  loadVoices();
+
+  service.addEventListener('end', () => {
+    setReading(false);
+  });
+}, []);
 
   if (!state.initialized) {
     return (

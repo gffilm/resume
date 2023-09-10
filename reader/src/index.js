@@ -18,7 +18,7 @@ import {
   Scenarios, 
   Story,
   MathCards, 
-  Addition 
+  Arithmatic 
 } from "./pages";
 import { ErrorBoundary } from "./pages/components/ErrorBoundary";
 import { NavBar } from "./pages/components";
@@ -28,6 +28,7 @@ function App() {
 
   const [header, setHeader] = useState("Welcome");
   const [error, setError] = useState(null);
+  const [showNav, setShowNav] = useState(false);
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [mode, setMode] = React.useState(prefersDarkMode ? "dark" : "light");
@@ -41,6 +42,15 @@ function App() {
     updatedSettings(updated + 1);
   }, [audio, mic]);
 
+
+  const onHeaderChange = (text) => {
+    setHeader(text)
+    if (text === 'hideNav') {
+      setShowNav(false)
+    } else {
+      setShowNav(true)
+    }
+  }
 
   const toggles = React.useMemo(
     (memo) => ({
@@ -111,6 +121,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <MemoryRouter>
+         {showNav && (
           <NavBar
             header={header}
             handleModeToggle={toggles.toggleColorMode}
@@ -120,33 +131,34 @@ function App() {
             handleMicToggle={toggles.toggleMicMode}
             mic={mic}
           />
+          )}
           <Container>
             <Routes>
               <React.Fragment>
                 <Route
                   exact
                   path="/reading"
-                  element={<Scenarios setHeader={setHeader} />}
+                  element={<Scenarios setHeader={onHeaderChange} />}
                 />
                 <Route
                   exact
                   path="/math"
-                  element={<MathCards setHeader={setHeader} />}
+                  element={<MathCards setHeader={onHeaderChange} />}
                 />
                 <Route
                   exact
-                  path="/addition/*"
-                  element={<Addition setHeader={setHeader} updatedSettings={updated} />}
+                  path="/arithmatic"
+                  element={<Arithmatic setHeader={onHeaderChange} updatedSettings={updated} />}
                 />
                 <Route
                   exact
                   path="/story/*"
-                  element={<Story setHeader={setHeader} updatedSettings={updated} />}
+                  element={<Story setHeader={onHeaderChange} updatedSettings={updated} />}
                 />
                 <Route
                   exact
                   path="*"
-                  element={<Selector setHeader={setHeader} />}
+                  element={<Selector setHeader={onHeaderChange} />}
                 />
               </React.Fragment>
             </Routes>

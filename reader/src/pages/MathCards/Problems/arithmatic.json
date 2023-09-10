@@ -1,0 +1,42 @@
+[
+  {
+    "problem": "If Sally has 5 red apples and gives 2 to her friend, how many red apples does Sally have left?",
+    "answer": "3"
+  },
+  {
+    "problem": "There are 9 birds sitting on a tree branch. 3 of them fly away. How many birds are left on the branch?",
+    "answer": "6"
+  },
+  {
+    "problem": "John has 4 toy cars. He buys 2 more at the store. How many toy cars does John have now?",
+    "answer": "6"
+  },
+  {
+    "problem": "Maria has 7 pencils, and she gives 3 of them to her sister. How many pencils does Maria have left?",
+    "answer": "4"
+  },
+  {
+    "problem": "There are 12 candies in a jar. If 5 candies are taken out, how many candies are left in the jar?",
+    "answer": "7"
+  },
+  {
+    "problem": "Lucy has 8 marbles. She loses 2 marbles while playing. How many marbles does Lucy have now?",
+    "answer": "6"
+  },
+  {
+    "problem": "Tom has 10 baseball cards. He trades 4 of them with his friend. How many baseball cards does Tom have left?",
+    "answer": "6"
+  },
+  {
+    "problem": "In a basket, there are 15 colorful balloons. If 9 balloons pop, how many balloons are still in the basket?",
+    "answer": "6"
+  },
+  {
+    "problem": "There are 20 students in a class. If 7 students are absent, how many students are present in the class?",
+    "answer": "13"
+  },
+  {
+    "problem": "If there are 6 cookies on a plate and Sarah eats 3 of them, how many cookies are left on the plate?",
+    "answer": "3"
+  }
+]

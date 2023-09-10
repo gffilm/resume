@@ -1,20 +1,20 @@
 export const cards = [
   {
     id: 0,
-    title: "Addition",
-    category: 'addition',
+    title: "Addition & Subtraction",
+    category: 'arithmatic',
     subtitle:
-      "Practice Addition",
+      "Practice Addition and Subtraction",
     selection: "fantasy",
     image: "fantasy.png",
     active: true
   },
   {
     id: 1,
-    title: "Subtraction",
-    category: 'subtraction',
+    title: "Geomatry",
+    category: 'geomatry',
     subtitle:
-      "Practice Subtraction",
+      "Practice Shapes",
     selection: "mystery",
     image: "mystery.png",
     active: false
