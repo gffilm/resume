@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import settings from "../../services/settings.service";
 import scenarioService from "../../services/scenario.service";
-import { ScenarioCard } from "./ScenarioCard";
+import { ScenarioCard } from "./../Scenarios/ScenarioCard";
 import {
   Card,
   CardContent,
@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { cards } from "./scenarioData";
+import { cards } from "./mathCards";
 import { Box, textAlign } from "@mui/system";
 import { defaultGridSpacing } from "../../utilities/constants";
 import { Instruction } from "../components/Instruction";
@@ -24,7 +24,7 @@ const imgStyle = {
   height: "auto",
 };
 
-export const Scenarios = (props) => {
+export const MathCards = (props) => {
   useEffect(() => {
     props.setHeader("Story Selection");
   }, [props]);

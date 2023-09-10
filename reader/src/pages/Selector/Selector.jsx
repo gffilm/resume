@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import settings from "../../services/settings.service";
 import scenarioService from "../../services/scenario.service";
-import { ScenarioCard } from "./ScenarioCard";
+import { ScenarioCard } from "./../Scenarios/ScenarioCard";
 import {
   Card,
   CardContent,
@@ -14,7 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { cards } from "./scenarioData";
+import { categories } from "./categories";
+
 import { Box, textAlign } from "@mui/system";
 import { defaultGridSpacing } from "../../utilities/constants";
 import { Instruction } from "../components/Instruction";
@@ -24,9 +25,9 @@ const imgStyle = {
   height: "auto",
 };
 
-export const Scenarios = (props) => {
+export const Selector = (props) => {
   useEffect(() => {
-    props.setHeader("Story Selection");
+    props.setHeader("Category Selection");
   }, [props]);
 
   const navigate = useNavigate();
@@ -34,15 +35,16 @@ export const Scenarios = (props) => {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const clickHandler = (card) => {
+    console.log(card.category)
     scenarioService.setSituation(card.selection);
-    navigate('/story/');
+    navigate(`/${card.category}/`);
   };
 
-  return !selectedCard ? (
+  return (
     <>
       <Stack spacing={4}>
         <Grid container spacing={defaultGridSpacing}>
-          {cards.map((card, index) => (
+          {categories.map((card, index) => (
             <Grid key={index} item xs={12} md={6}>
               <ScenarioCard
                 key={card.id}
@@ -57,26 +59,5 @@ export const Scenarios = (props) => {
         </Typography>
       </Stack>
     </>
-  ) : (
-    <Grid container md={6}>
-      <Grid>
-        <Card>
-          <CardMedia
-            sx={{ height: 240 }}
-            image={`${selectedCard.image}`}
-            title={selectedCard.title}
-          />
-          <CardContent>
-            <Typography variant="h5">
-              Loading {selectedCard.title}...
-            </Typography>
-            <Typography variant="subtitle">{selectedCard.subtitle}</Typography>
-            <div style={{ textAlign: "center" }}>
-              <CircularProgress />
-            </div>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
-  );
+  )
 };

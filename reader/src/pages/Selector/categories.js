@@ -1,16 +1,18 @@
-export const cards = [
+export const categories = [
   {
     id: 0,
-    title: "Fantasy & Adventure",
+    title: "Math",
+    category: 'math',
     subtitle:
-      "Go on a wild journey full of adventure and fantasty",
+      "Go on a wild journey full of adventure with addition subtraction and multiplication",
     selection: "fantasy",
     image: "fantasy.png",
     active: true
   },
   {
     id: 1,
-    title: "Mystery",
+    title: "Reading",
+    category: 'reading',
     subtitle:
       "Solve a mystery",
     selection: "mystery",
@@ -19,20 +21,22 @@ export const cards = [
   },
   {
     id: 2,
-    title: "Scary Stories",
+    category: 'history',
+    title: "History",
     subtitle:
       "Boo! In the mood for a scary story?",
     selection: "scary",
     image: "scary.png",
-    active: true
+    active: false
   },
   {
     id: 3,
-    title: "Silly",
+    title: "Science",
+    category: 'science',
     subtitle:
       "Silly time!",
     selection: "silly",
     image: "silly.jpg",
-    active: true
+    active: false
   },
 ];

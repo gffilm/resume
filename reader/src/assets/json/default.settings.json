@@ -10,6 +10,7 @@
 	"delayOnChatStart": 4000,
 	"useTimer": true,
 	"apiURL": "http://localhost:3001",
+	"imagePath": "images",
 	"restartChatAfterfeedback": false,
 	"allowXLSXExport": false,
 	"model": "text-davinci-003",

@@ -26,7 +26,7 @@
   "scripts": {
     "build": "npx react-scripts build",
     "start": "node node/index.js",
-    "watch:dev": "concurrently \"nodemon node/index.js\" \"npx react-scripts start\"",
+    "watch": "concurrently \"nodemon node/index.js\" \"npx react-scripts start\"",
     "watch:build": "npx react-scripts start"
   },
   "browserslist": {

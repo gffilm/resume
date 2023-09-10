@@ -11,7 +11,9 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import { Scenarios, Story } from "./pages";
+import { MemoryRouter } from 'react-router'
+
+import { Selector, Scenarios, MathCards, Story } from "./pages";
 import { ErrorBoundary } from "./pages/components/ErrorBoundary";
 import { NavBar } from "./pages/components";
 import settings from "./services/settings.service";
@@ -102,7 +104,7 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router>
+        <MemoryRouter>
           <NavBar
             header={header}
             handleModeToggle={toggles.toggleColorMode}
@@ -117,8 +119,13 @@ function App() {
               <React.Fragment>
                 <Route
                   exact
-                  path="/scenario"
+                  path="/reading"
                   element={<Scenarios setHeader={setHeader} />}
+                />
+                <Route
+                  exact
+                  path="/math"
+                  element={<MathCards setHeader={setHeader} />}
                 />
                 <Route
                   exact
@@ -128,12 +135,12 @@ function App() {
                 <Route
                   exact
                   path="*"
-                  element={<Scenarios setHeader={setHeader} />}
+                  element={<Selector setHeader={setHeader} />}
                 />
               </React.Fragment>
             </Routes>
           </Container>
-        </Router>
+        </MemoryRouter>
       </ThemeProvider>
     </ErrorBoundary>
   );

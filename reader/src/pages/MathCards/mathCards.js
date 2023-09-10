@@ -1,36 +1,36 @@
 export const cards = [
   {
     id: 0,
-    title: "Fantasy & Adventure",
+    title: "Addition",
     subtitle:
-      "Go on a wild journey full of adventure and fantasty",
+      "Practice Addition",
     selection: "fantasy",
     image: "fantasy.png",
     active: true
   },
   {
     id: 1,
-    title: "Mystery",
+    title: "Subtraction",
     subtitle:
-      "Solve a mystery",
+      "Practice Subtraction",
     selection: "mystery",
     image: "mystery.png",
     active: true
   },
   {
     id: 2,
-    title: "Scary Stories",
+    title: "Multiplication",
     subtitle:
-      "Boo! In the mood for a scary story?",
+      "Practice Multiplication",
     selection: "scary",
     image: "scary.png",
     active: true
   },
   {
     id: 3,
-    title: "Silly",
+    title: "Division",
     subtitle:
-      "Silly time!",
+      "Practice Division",
     selection: "silly",
     image: "silly.jpg",
     active: true
