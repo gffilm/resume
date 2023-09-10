@@ -14,7 +14,7 @@ export const cards = [
     category: 'geomatry',
     subtitle:
       "Practice Shapes",
-    image: "mystery.png",
+    image: "geometry.png",
     active: false
   },
   {
@@ -23,7 +23,7 @@ export const cards = [
     category: 'multiplication',
     subtitle:
       "Practice Multiplication",
-    image: "scary.png",
+    image: "multiplication.png",
     active: false
   },
   {
@@ -32,7 +32,7 @@ export const cards = [
     category: 'division',
     subtitle:
       "Practice Division",
-    image: "silly.jpg",
+    image: "division.png",
     active: false
   },
 ];
