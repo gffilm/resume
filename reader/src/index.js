@@ -13,7 +13,13 @@ import {
 } from "react-router-dom";
 import { MemoryRouter } from 'react-router'
 
-import { Selector, Scenarios, MathCards, Story } from "./pages";
+import { 
+  Selector, 
+  Scenarios, 
+  Story,
+  MathCards, 
+  Addition 
+} from "./pages";
 import { ErrorBoundary } from "./pages/components/ErrorBoundary";
 import { NavBar } from "./pages/components";
 import settings from "./services/settings.service";
@@ -126,6 +132,11 @@ function App() {
                   exact
                   path="/math"
                   element={<MathCards setHeader={setHeader} />}
+                />
+                <Route
+                  exact
+                  path="/addition/*"
+                  element={<Addition setHeader={setHeader} updatedSettings={updated} />}
                 />
                 <Route
                   exact

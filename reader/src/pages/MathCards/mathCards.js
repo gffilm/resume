@@ -2,6 +2,7 @@ export const cards = [
   {
     id: 0,
     title: "Addition",
+    category: 'addition',
     subtitle:
       "Practice Addition",
     selection: "fantasy",
@@ -11,28 +12,31 @@ export const cards = [
   {
     id: 1,
     title: "Subtraction",
+    category: 'subtraction',
     subtitle:
       "Practice Subtraction",
     selection: "mystery",
     image: "mystery.png",
-    active: true
+    active: false
   },
   {
     id: 2,
     title: "Multiplication",
+    category: 'multiplication',
     subtitle:
       "Practice Multiplication",
     selection: "scary",
     image: "scary.png",
-    active: true
+    active: false
   },
   {
     id: 3,
     title: "Division",
+    category: 'division',
     subtitle:
       "Practice Division",
     selection: "silly",
     image: "silly.jpg",
-    active: true
+    active: false
   },
 ];

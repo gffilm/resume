@@ -35,7 +35,7 @@ export const MathCards = (props) => {
 
   const clickHandler = (card) => {
     scenarioService.setSituation(card.selection);
-    navigate('/story/');
+    navigate('/addition/');
   };
 
   return !selectedCard ? (
