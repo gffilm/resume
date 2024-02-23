@@ -7,7 +7,9 @@
     "build": "vite build",
     "dev": "vite",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint:open": "npm run lint > lint_errors.txt",
+    "lint:fix": "npm run lint -- --fix"
   },
   "keywords": [],
   "author": "",
