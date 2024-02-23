@@ -5,6 +5,7 @@
   "main": "src/index.tsx",
   "scripts": {
     "build": "vite build",
+    "serve": "npm run build && cd dist && serve",
     "dev": "vite",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",

@@ -8,8 +8,12 @@ export default {
     include: ['react', 'react-dom'],
   },
   build: {
+    outDir: 'dist', // This is the default output directory
+    assetsDir: '.', // This is important to have assets in the root of outDir
+    emptyOutDir: true, // Clear the output directory before each build
+
     rollupOptions: {
-      input: '/src/index.tsx',
+      input: '/index.html',
     },
   },
 };
