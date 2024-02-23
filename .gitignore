@@ -1,0 +1,5 @@
+
+resume_archive/*
+node_modules/*
+resume/web/node_modules/*
+resume/web/lint_errors.txt
