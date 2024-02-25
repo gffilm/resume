@@ -4,8 +4,7 @@ class SettingsService {
 
 	constructor() {
 		try {
-			const SETTINGS = JSON.parse(process.env.REACT_APP_SETTINGS);
-			this.settings = { ...defaultSettings, ...SETTINGS };
+			this.settings = defaultSettings
 		} catch (e) {
 			console.error('Settings in the .env file is not properly formatted', e);
 			this.settings = defaultSettings;

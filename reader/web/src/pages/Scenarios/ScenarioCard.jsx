@@ -6,22 +6,13 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { makeStyles } from "@mui/styles";
 import settings from "../../services/settings.service";
-
-const useStyles = makeStyles((theme) => ({
-  disabledCard: {
-    opacity: 0.4,
-    pointerEvents: "none",
-  }
-}));
 
 export const ScenarioCard = ({ card, clickHandler }) => {
   const isCardActive = card.active;
-  const classes = useStyles();
 
   return (
-    <Card className={!isCardActive ? classes.disabledCard: ""}>
+    <Card>
       <CardActionArea
         onClick={() => clickHandler(card)}
         disabled={!isCardActive}

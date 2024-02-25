@@ -6,7 +6,6 @@ import ding from "../../assets/audio/message.mp3";
 
 import settings from "../../services/settings.service";
 import backendService from "../../services/backend.service";
-import exportService from "../../services/export.service";
 import requestService from "../../services/request.service";
 import {
   AppModal,
@@ -15,7 +14,6 @@ import {
   AudioPlayer,
   Sliders,
   AudioRecord,
-  HTMLMarkdown,
   Words
 } from "../components";
 
@@ -127,6 +125,7 @@ export const Story = (props) => {
   const readWord = (word) => {
     speechService.text = word.trim();
     window.speechSynthesis.speak(speechService);
+    console.log('word', speechService)
   };
 
   const recordAudio = (blob) => {

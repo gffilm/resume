@@ -43,7 +43,7 @@ export const Scenarios = (props) => {
       <Stack spacing={4}>
         <Grid container spacing={defaultGridSpacing}>
           {cards.map((card, index) => (
-            <Grid key={index} item xs={12} md={6}>
+            <Grid key={`index_${index}`} xs={12} md={6}>
               <ScenarioCard
                 key={card.id}
                 card={card}
