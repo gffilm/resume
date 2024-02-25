@@ -4,3 +4,4 @@ resume/web/lint_errors.txt
 app_template/web/node_modules/*
 reader/api/node_modules/*
 reader/node_modules/*
+*.env
