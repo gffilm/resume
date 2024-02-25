@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-polly": "^3.282.0",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/material": "^5.11.8",
+    "axios": "^1.3.4",
+    "concurrently": "^7.6.0",
+    "react": "^18.1.0",
+    "react-audio-voice-recorder": "^1.0.4",
+    "react-countdown": "^2.3.5",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^8.0.5",
+    "react-router-dom": "^6.8.1",
+    "react-textarea-autosize": "^8.4.0"
+  },
+  "scripts": {
+    "build": "npx react-scripts build",
+    "start": "node node/index.js",
+    "dev": "concurrently \"nodemon node/index.js\" \"npx react-scripts start\"",
+    "dev:build": "npx react-scripts start"
+  },
+  "devDependencies": {
+    "@mui/icons-material": "^5.11.11"
+  }
+}

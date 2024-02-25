@@ -1,7 +1,6 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const crypto = require('crypto');
-const { PollyClient, SynthesizeSpeechCommand } = require("@aws-sdk/client-polly");
 const path = require("path");
 const axios = require('axios');
 const FormData = require('form-data');
@@ -35,20 +34,8 @@ class AUDIO_API {
 				return;
 			}
 
-			if (settings.preferredAudio === 'aws') {
-				if (employee.awsVoice) {
-					resolve(this.getAudioFileAWS(transcript, employee.awsVoice));
-				} else if (employee.elevenVoice) {
-					resolve(this.getAudioFileElevenLabs(transcript, employee.elevenVoice));
-				}
-			}
-
-			if (settings.preferredAudio === 'eleven') {
-				if (employee.elevenVoice) {
-					resolve(this.getAudioFileElevenLabs(transcript, employee.elevenVoice));
-				} else if (employee.awsVoice) {
-					resolve(this.getAudioFileAWS(transcript, employee.awsVoice));
-				}
+			if (employee.elevenVoice) {
+				resolve(this.getAudioFileElevenLabs(transcript, employee.elevenVoice));
 			}
 			resolve(null);
 		});
@@ -77,29 +64,6 @@ class AUDIO_API {
 				console.log('File exists');
 				resolve({status: true, audioURL: url});
 				return;
-			}
-
-			logTime('REQUEST TO AWS AUDIO');
-			try {
-				const polly = new PollyClient();
-				const params = {
-					Text: transcript,
-					OutputFormat: 'mp3',
-					VoiceId: voice
-				};
-				const command = new SynthesizeSpeechCommand(params);
-				polly.send(command).then((response) => {
-					const writeStream = fs.createWriteStream(filePath);
-					response.AudioStream.pipe(writeStream);
-					writeStream.on('finish', () => {
-						console.log(`Saved audio file to ${filePath}`);
-						logTime('FINISHED REQUEST FROM AWS');
-						resolve({status: true, audioURL: url});
-					});
-				})
-			} catch (err) {
-				console.log('Error:', err);
-				resolve({status: false, audioURL: null});
 			}
 		});
 	}
