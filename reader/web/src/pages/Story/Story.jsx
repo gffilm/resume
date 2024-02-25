@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useReducer } from "react";
-import TextField from "@mui/material/TextField";
-import scenarioService from "../../services/scenario.service";
-import { useNavigate } from "react-router-dom";
-import ding from "../../assets/audio/message.mp3";
+import React, { useState, useEffect, useReducer } from "react"
+import TextField from "@mui/material/TextField"
+import scenarioService from "../../services/scenario.service"
+import { useNavigate } from "react-router-dom"
+import ding from "../../assets/audio/message.mp3"
 
-import settings from "../../services/settings.service";
-import backendService from "../../services/backend.service";
-import requestService from "../../services/request.service";
+import settings from "../../services/settings.service"
+import backendService from "../../services/backend.service"
+import requestService from "../../services/request.service"
 import {
   AppModal,
   AppButton,
@@ -15,10 +15,10 @@ import {
   Sliders,
   AudioRecord,
   Words
-} from "../components";
+} from "../components"
 
-import { timeFromNow } from "../../utilities";
-import CircularProgress from "@mui/material/CircularProgress";
+import { timeFromNow } from "../../utilities"
+import CircularProgress from "@mui/material/CircularProgress"
 import {
   Button,
   Box,
@@ -31,27 +31,47 @@ import {
   DialogTitle,
   Stack,
   Typography,
-} from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+} from "@mui/material"
+import Grid from "@mui/material/Unstable_Grid2/Grid2"
+
+
+const HelpedWordsModal = ({ helpedWords, onClose }) => {
+  return (
+    <div>
+      <DialogContent>
+        <Typography variant="h4">Words You Needed Help With:</Typography>
+        <ul>
+          {helpedWords.map((word, index) => (
+            <li key={index}>{word}</li>
+          ))}
+        </ul>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Close</Button>
+      </DialogActions>
+    </div>
+  );
+};
+
 
 export const Story = (props) => {
-  const { setHeader, updatedSettings } = props;
-  const navigate = useNavigate();
+  const { setHeader, updatedSettings } = props
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!scenarioService.isInitialized()) {
-      navigate("/");
+      navigate("/")
     } else {
-      props.setHeader(scenario.title);
+      props.setHeader(scenario.title)
       if (!state.initialized) {
-        dispatch(startAction);
+        dispatch(startAction)
         dispatch({
           type: "INITALIZED",
           payload: {
             initialized: true,
             story: scenario.story
           }
-        });
+        })
       }
     }
 
@@ -61,109 +81,103 @@ export const Story = (props) => {
           payload: {
             audioURL: null,
             useVoiceToText: settings.useVoiceToText,
-            useTextToVoice: settings.useTextToVoice,
+            useTextToVoice: settings.useTextToVoice
           }
-        });
+        })
       }
-  }, [setHeader, updatedSettings, navigate]);
+  }, [setHeader, updatedSettings, navigate])
 
-  let scenario = scenarioService.getSituation();
+  let scenario = scenarioService.getSituation()
 
   const initialState = {
     initialized: false,
     useVoiceToText: settings.useVoiceToText,
-    showGetFeedbackButtonInModal: false,
-    startedConversation: false,
-    convoCounter: 0,
-    feedbackconvoCounter: 0,
     text: '',
-    conversation: [],
-    feedback: [],
-    isModalOpen: false,
-    showScenario: false,
-    isOutOfTime: false,
-    gettingFeedback: false,
-    canType: true,
-    gotAllFeedback: false,
-    feedbackTitle: '',
-    audioURL: null,
-    closeModalText: 'Try Again',
-    showExportButton: settings.allowXLSXExport,
     name: 'Kayla',
     currentLine: '',
     currentIndex: 0,
     story: []
-  };
+  }
 
 
   const startAction = {
     type: "INITALIZED",
     payload: initialState,
-  };
+  }
 
   function reducer(state, action) {
-    return { ...state, ...action.payload};
+    return { ...state, ...action.payload}
   }
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState)
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [speechService, setSpeechService] = useState(null);
-  const [reading, setReading] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [speechService, setSpeechService] = useState(null)
+  const [reading, setReading] = useState(false)
+  const [helpedWords, setHelpedWords] = useState([])
+  const [showHelpedWordsModal, setShowHelpedWordsModal] = useState(false)
+
 
   const nextLine = () => {
     if (currentIndex < state.story.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+      setCurrentIndex(currentIndex + 1)
     }
-  };
+  }
 
   const previousLine = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+      setCurrentIndex(currentIndex - 1)
     }
-  };
+  }
 
   const readWord = (word) => {
-    speechService.text = word.trim();
-    window.speechSynthesis.speak(speechService);
-    console.log('word', speechService)
-  };
+    speechService.text = word.trim()
+    window.speechSynthesis.speak(speechService)
+    if (!helpedWords.includes(word)) {
+      setHelpedWords((prevWords) => [...prevWords, word])
+    }
+  }
 
   const recordAudio = (blob) => {
     dispatch({type: 'SEND_MESSAGE', payload: {
       text: '',
-    }});
+    }})
 
     backendService.sendAudio(blob, {}).then((result) => {
-    });
-  };
+    })
+  }
 
   const readAll = () => {
-    speechService.text = state.story[currentIndex];
-    window.speechSynthesis.speak(speechService);
-    setReading(true);
-  };
+    speechService.text = state.story[currentIndex]
+    window.speechSynthesis.speak(speechService)
+    setReading(true)
+  }
+
+  const showHelpedWords = () => {
+    setShowHelpedWordsModal(true)
+
+  }
 
  useEffect(() => {
-  let service = new SpeechSynthesisUtterance();
-  let voices = [];
+  let service = new SpeechSynthesisUtterance()
+  let voices = []
 
   const loadVoices = () => {
-    voices = speechSynthesis.getVoices();
+    voices = speechSynthesis.getVoices()
     if (voices.length === 0) {
-      setTimeout(loadVoices, 100);
+      setTimeout(loadVoices, 100)
     } else {
-      service.voice = voices[6];
-      service.text = '';
-      setSpeechService(service);
+      service.voice = voices[6]
+      service.text = ''
+      setSpeechService(service)
     }
-  };
+  }
 
-  loadVoices();
+  loadVoices()
 
   service.addEventListener('end', () => {
-    setReading(false);
-  });
-}, []);
+    setReading(false)
+  })
+}, [])
 
   if (!state.initialized) {
     return (
@@ -173,6 +187,13 @@ export const Story = (props) => {
 
  return (
   <>
+    {showHelpedWordsModal && (
+      <HelpedWordsModal
+        helpedWords={helpedWords}
+        onClose={() => setShowHelpedWordsModal(false)}
+      />
+    )}
+
     <Grid container spacing={2} sx={{ padding: 0 }}>
       <Grid xs={12} md={12}>
         <Card>
@@ -198,7 +219,7 @@ export const Story = (props) => {
               {state.canType && state.useVoiceToText && (
                 <AudioRecord
                   onComplete={(blob) => {
-                    recordAudio(blob);
+                    recordAudio(blob)
                   }}
                 />
               )}
@@ -224,7 +245,7 @@ export const Story = (props) => {
                 disabled={reading}
                 variant="contained"
                 onClick={() => {
-                  readAll();
+                  readAll()
                 }}
               >
                 Read
@@ -238,12 +259,19 @@ export const Story = (props) => {
               >
                 Next
               </Button>
-
+              <Button
+                style={{ margin: '1rem' }}
+                variant="contained"
+                onClick={showHelpedWords}
+                disabled={currentIndex !== state.story.length - 1}
+              >
+                Show Missed Words
+              </Button>
             </Box>
           </CardContent>
         </Card>
       </Grid>
     </Grid>
   </>
-);
+)
 }

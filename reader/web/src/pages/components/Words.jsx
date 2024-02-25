@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import { Button } from "@mui/material";
+import React, { useState } from "react"
+import { Button } from "@mui/material"
 
 export const Words = ({ text, onWordClick }) => {
   // Split the text into individual words
-  const words = text.split(" ");
+  const words = text.split(" ")
 
-  const [highlightedWords, setHighlightedWords] = useState([]);
+  const [highlightedWords, setHighlightedWords] = useState([])
 
   const toggleHighlight = (word) => {
     if (highlightedWords.includes(word)) {
       // If the word is already highlighted, remove it from the list
       setHighlightedWords((prevHighlightedWords) =>
         prevHighlightedWords.filter((w) => w !== word)
-      );
+      )
     } else {
       // If the word is not highlighted, add it to the list
       setHighlightedWords((prevHighlightedWords) => [
         ...prevHighlightedWords,
         word,
-      ]);
+      ])
     }
-  };
+  }
 
   return (
     <div>
@@ -35,23 +35,23 @@ export const Words = ({ text, onWordClick }) => {
             transition: "transform 0.3s ease, background-color 0.3s ease",
             display: "inline-block",
             fontSize: "0.8em",
-            backgroundColor: highlightedWords.includes(word) ? "yellow" : "transparent",
-            transform: highlightedWords.includes(word) ? "scale(1)" : "scale(1.1)",
+            backgroundColor: highlightedWords.includes(word) ? "#389DFF" : "transparent",
+            transform: highlightedWords.includes(word) ? "scale(1)" : "scale(1.1)"
           }}
           onClick={() => {
-            toggleHighlight(word);
-            onWordClick(word);
+            toggleHighlight(word)
+            onWordClick(word)
           }}
           onMouseEnter={(e) => {
             if (!highlightedWords.includes(word)) {
-              e.target.style.backgroundColor = "#eee"; // Maintain highlight color on hover
-              e.target.style.transform = "scale(1.1)";
+              e.target.style.backgroundColor = "#2372C8"
+              e.target.style.transform = "scale(1.1)"
             }
           }}
           onMouseLeave={(e) => {
             if (!highlightedWords.includes(word)) {
-              e.target.style.backgroundColor = "transparent";
-              e.target.style.transform = "scale(1)";
+              e.target.style.backgroundColor = "transparent"
+              e.target.style.transform = "scale(1)"
             }
           }}
         >
@@ -59,5 +59,5 @@ export const Words = ({ text, onWordClick }) => {
         </span>
       ))}
     </div>
-  );
-};
+  )
+}

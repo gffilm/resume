@@ -1,8 +1,5 @@
 {
 	"title": "Scary Stories",
-	"situation": "Lorem ipsum",
-	"instructions": "Lorem ipsum",
-	"gptSituation": "Lorem ipsum",
 	"story": [
 	  "On a dark and stormy night, in a creepy old mansion",
 	  "at the edge of town, lived a young girl named Emily.",
@@ -30,5 +27,4 @@
 	  "knowing that even in the spookiest of places,",
 	  "kindness and bravery could bring light to the darkest nights."
 	]
-
 }

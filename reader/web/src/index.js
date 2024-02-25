@@ -31,7 +31,7 @@ function App() {
   const [showNav, setShowNav] = useState(false);
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [mode, setMode] = React.useState(prefersDarkMode ? "dark" : "light");
+  const [mode, setMode] = React.useState(prefersDarkMode ? "dark" : "dark");
   const [audio, setAudio] = React.useState(settings.useTextToVoice);
   const [mic, setMic] = React.useState(settings.useVoiceToText);
   const [updated, updatedSettings] = React.useState(0);

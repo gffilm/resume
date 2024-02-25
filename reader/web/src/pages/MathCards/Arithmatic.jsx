@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import arithmatic from "./Problems/arithmatic.json";
 import ding from "../../assets/audio/message.mp3";
 import { Words } from "../components";
-import { DrawingArea } from "../components";
 import {
   Button,
   Box,
@@ -20,7 +19,6 @@ export const Arithmatic = (props) => {
   const navigate = useNavigate();
   const [problems, setProblems] = useState(arithmatic);
   const [correct, setCorrect] = useState(false);
-  const [drawing, setDrawing] = useState(false);
 
   const correctPhrases = [
     'Well done!',
@@ -66,6 +64,7 @@ useEffect(() => {
       setCurrentIndex(currentIndex + 1);
       setUserAnswer(''); // Clear user's answer when moving to the next problem
       setFeedback(''); // Clear feedback when moving to the next problem
+      setCorrect(false)
     }
   };
 
@@ -110,7 +109,6 @@ useEffect(() => {
 
   return (
     <>
-    {!drawing && (
       <Grid container spacing={2} sx={{ padding: 0 }}>
         <Grid xs={12} md={12}>
           <Card>
@@ -132,6 +130,7 @@ useEffect(() => {
                   label="Your Answer"
                   variant="outlined"
                   size="large"
+                  name="input"
                   fullWidth
                   value={userAnswer}
                   onKeyPress={(e) => {
@@ -148,7 +147,7 @@ useEffect(() => {
                 
                 <Button
                   style={{ margin: '1rem' }}
-                  disabled={correct}
+                  disabled={correct || !userAnswer}
                   variant="contained"
                   onClick={() => {
                     solve();
@@ -172,18 +171,6 @@ useEffect(() => {
                 >
                   Previous
                 </Button>
-
-                 <Button
-                  style={{ margin: '1rem' }}
-                  variant="contained"
-                  onClick={() => {
-                    setHeader('hideNav')
-                    setDrawing(true);
-                  }}
-                >
-                  DRAW
-                </Button>
-
                  <Button
                   style={{ margin: '1rem' }}
                   disabled={reading}
@@ -214,36 +201,6 @@ useEffect(() => {
           </Card>
         </Grid>
       </Grid>
-    )}
-
-    { drawing && (
-      <Grid container spacing={2} sx={{ padding: 0 }}>
-        <Grid xs={12} md={12}>
-          <Card>
-            <CardContent>
-              <Stack direction="column" // Change direction to column
-                justifyContent="center" // Center the input field and buttons
-                alignItems="center"
-                spacing={2}
-                sx={{ marginTop: 2, minHeight: '10rem' }}>
-               <DrawingArea />
-               <Button
-                  style={{ margin: '1rem' }}
-                  variant="contained"
-                  onClick={() => {
-                    setHeader('Math')
-                    setDrawing(false);
-                  }}
-                >
-                  Exit Drawing
-                </Button>
-
-               </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    )}
     </>
   );
 };

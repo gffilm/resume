@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTheme } from '@mui/material';
-import CircularProgress from "@mui/material/CircularProgress";
-import settings from "./../services/settings.service";
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useTheme } from '@mui/material'
+import CircularProgress from "@mui/material/CircularProgress"
+import settings from "./../services/settings.service"
 
 export const Welcome = (props) => {
    useEffect(() => {
-    props.setHeader("Welcome");
-  }, [props]);
+    props.setHeader("Welcome")
+  }, [props])
 
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  const theme = useTheme();
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
+  const theme = useTheme()
 
   useEffect(() => {
-    props.setLoggedIn(loggedIn);
-  }, [props, loggedIn]);
+    props.setLoggedIn(loggedIn)
+  }, [props, loggedIn])
 
   const successResponse = (response) => {
     setTimeout(() => {
-      setLoggedIn(true);
-       navigate('/scenario');
-    }, 2000);
+      setLoggedIn(true)
+       navigate('/scenario')
+    }, 2000)
   }
 
   const failureResponse = (response) => {
     if (settings.production) {
-      setLoading(false);
-      return;
+      setLoading(false)
+      return
     }
     setTimeout(() => {
-      setLoggedIn(true);
-       navigate('/scenario');
-    }, 2000);
+      setLoggedIn(true)
+       navigate('/scenario')
+    }, 2000)
   }
 
 
@@ -53,5 +53,5 @@ export const Welcome = (props) => {
       </div>
   )
 
-};
+}
 
