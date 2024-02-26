@@ -5,3 +5,4 @@ app_template/web/node_modules/*
 reader/api/node_modules/*
 reader/node_modules/*
 *.env
+tables/web/node_modules/*

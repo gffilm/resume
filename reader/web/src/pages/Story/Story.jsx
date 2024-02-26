@@ -130,6 +130,9 @@ export const Story = (props) => {
   }
 
   const readWord = (word) => {
+    if (!state.useTextToVoice) {
+      return
+    }
     speechService.text = word.trim()
     window.speechSynthesis.speak(speechService)
     if (!helpedWords.includes(word)) {
@@ -147,6 +150,9 @@ export const Story = (props) => {
   }
 
   const readAll = () => {
+    if (!state.useTextToVoice) {
+      return
+    }
     speechService.text = state.story[currentIndex]
     window.speechSynthesis.speak(speechService)
     setReading(true)
@@ -198,6 +204,7 @@ export const Story = (props) => {
       <Grid xs={12} md={12}>
         <Card>
           <CardContent>
+            <CardHeader>{scenario.title}</CardHeader>
             <CardContent>
               <Typography variant="h2">
                 <Words
@@ -211,7 +218,7 @@ export const Story = (props) => {
               justifyContent="space-between"
               alignItems="center"
               spacing={2}
-              sx={{ marginTop: 2, minHeight: '10rem' }}
+              sx={{ marginTop: 2, minHeight: '4rem' }}
             >
               {state.audioURL && state.useTextToVoice && (
                 <AudioPlayer file={state.audioURL} onComplete={() => {}} />
@@ -242,7 +249,7 @@ export const Story = (props) => {
 
               <Button
                 style={{ margin: '1rem' }}
-                disabled={reading}
+                disabled={reading || !state.useTextToVoice}
                 variant="contained"
                 onClick={() => {
                   readAll()

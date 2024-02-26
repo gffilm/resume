@@ -34,7 +34,7 @@ export const Words = ({ text, onWordClick }) => {
             borderRadius: ".5rem",
             transition: "transform 0.3s ease, background-color 0.3s ease",
             display: "inline-block",
-            fontSize: "0.8em",
+            fontSize: "1em",
             backgroundColor: highlightedWords.includes(word) ? "#389DFF" : "transparent",
             transform: highlightedWords.includes(word) ? "scale(1)" : "scale(1.1)"
           }}

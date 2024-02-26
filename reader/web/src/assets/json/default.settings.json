@@ -1,59 +1,6 @@
 {
 	"useVoiceToText": false,
-	"useTextToVoice": false,
-	"preferredAudio": "eleven",
-	"managerSelection": "auto",
-	"employeeSelection": "auto",
-	"randomizeCharacterValues": true,
-	"allowCharacterValueEditing": true,
-	"showScenarioOnEntry": false,
-	"delayOnChatStart": 4000,
-	"useTimer": true,
-	"apiURL": "http://localhost:3001",
+	"useTextToVoice": true,
 	"imagePath": "images",
-	"restartChatAfterfeedback": false,
-	"allowXLSXExport": false,
-	"model": "text-davinci-003",
-	"apiModel": [
-		  {
-		    "label": "Randomness",
-		    "model": "temperature",
-		    "value" : 0.9,
-		    "min" : 0,
-		    "max" : 1,
-		    "step" : 0.1
-		  },
-		  {
-		    "label": "Max Length",
-		    "model": "max_tokens",
-		    "value" : 600,
-		    "min" : 0,
-		    "max" : 3000,
-		    "step" : 100
-		  },
-		  {
-		    "label": "Diversity",
-		    "model": "top_p",
-		    "value" : 1,
-		    "min" : 0,
-		    "max" : 1,
-		    "step" : 0.1
-		  },
-		  {
-		    "label": "Repeating Responses",
-		    "model": "frequency_penalty",
-		    "value" : 0.9,
-		    "min" : 0,
-		    "max" : 1,
-		    "step" : 0.1
-		  },
-		  {
-		    "label": "Repeating Input",
-		    "model": "presence_penalty",
-		    "value" : 0.6,
-		    "min" : 0,
-		    "max" : 1,
-		    "step" : 0.1
-		  }
-	]
+	"apiURL": "http://localhost:3001"
 }

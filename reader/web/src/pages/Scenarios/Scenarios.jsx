@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import CircularProgress from "@mui/material/CircularProgress";
+import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import CircularProgress from "@mui/material/CircularProgress"
 
-import settings from "../../services/settings.service";
-import scenarioService from "../../services/scenario.service";
-import { ScenarioCard } from "./ScenarioCard";
+import settings from "../../services/settings.service"
+import scenarioService from "../../services/scenario.service"
+import { ScenarioCard } from "./ScenarioCard"
 import {
   Card,
   CardContent,
@@ -12,31 +12,32 @@ import {
   Paper,
   Stack,
   Typography,
-} from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { cards } from "./scenarioData";
-import { Box, textAlign } from "@mui/system";
-import { defaultGridSpacing } from "../../utilities/constants";
-import { Instruction } from "../components/Instruction";
+} from "@mui/material"
+import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import { cards } from "./scenarioData"
+import { Box, textAlign } from "@mui/system"
+import { defaultGridSpacing } from "../../utilities/constants"
+import { Instruction } from "../components/Instruction"
 
 const imgStyle = {
   width: "30%",
   height: "auto",
-};
+}
 
 export const Scenarios = (props) => {
   useEffect(() => {
-    props.setHeader("Story Selection");
-  }, [props]);
+    props.setHeader("Story Selection")
+  }, [props])
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCard, setSelectedCard] = useState(null)
 
   const clickHandler = (card) => {
-    scenarioService.setSituation(card.selection);
-    navigate('/story/');
-  };
+    const user = window.localStorage.getItem('user') || 'kayla'
+    scenarioService.setSituation(`${user}_${card.selection}`)
+    navigate('/story/')
+  }
 
   return !selectedCard ? (
     <>
@@ -78,5 +79,5 @@ export const Scenarios = (props) => {
         </Card>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
