@@ -26,6 +26,7 @@ const Seating = () => {
   const [peopleData, setPeopleData] = useState([])
   const [startTableIndex, setStartTableIndex] = useState(1)
   const [startPeopleIndex, setStartPeopleIndex] = useState(1)
+  const [printing, setPrinting] = useState(false)
 
   const [tables, setTables] = useState([
     { id: 1, name: 'Table 1', max: 10, people: [] },
@@ -181,6 +182,10 @@ const Seating = () => {
     }
   }
 
+  const getTableNameById = (tableId) => {
+    const foundTable = tables.find((table) => table.id === tableId)
+    return foundTable ? foundTable.name : ''
+  }
 
   const showNextUnassigned = () => {
     // Fetch all unassigned people
@@ -201,59 +206,73 @@ const Seating = () => {
     setSearchResults(nextUnassigned)
   }
 
+  const print = () => {
+    sortByTable()
+    setPrinting(true)
+    setTimeout(() => {
+      window.print()
+      setTimeout(() => {
+        setPrinting(false)
+      }, 1000)
+    }, 1000)
+  }
 
    return (
     <Container style={{ padding: '2em' }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            type="text"
-            placeholder="Search people..."
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value)
-              handleSearch()
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} container justifyContent="space-between" alignItems="center">
-          <Button
-            sx={{ marginRight: '1em' }}
-            variant="contained"
-            color="primary"
-            onClick={sortByTable}
-          >
-            Sort By Table
-          </Button>
-          <TextField
-            type="number"
-            inputProps={{ style: { height: '.5em', width: '6em' } }}
-            label="Starting Table"
-            value={startTableIndex}
-            onChange={(e) => setStartTableIndex(e.target.value)}
-          />
-          <Button
-            sx={{ marginLeft: '1em' }}
-            variant="contained"
-            color="secondary"
-            onClick={showNextUnassigned}
-          >
-            Show Next Unassigned
-          </Button>
-          <Typography>{ peopleData.length - unassignedCount } / {peopleData.length} assigned seats </Typography>
-           <Button 
-            sx={{marginRight: '1em'}}
-            variant="contained" 
-            color="primary"
-            onClick={copyToClipBoard}>
-            Save
-          </Button>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        {error && <Typography style={{ color: '#ff0000' }}>{error}</Typography>}
-      </Grid>
+      {!printing && (
+        <>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                type="text"
+                placeholder="Search people..."
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value)
+                  handleSearch()
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} container justifyContent="space-between" alignItems="center">
+              <Button
+                sx={{ marginRight: '1em' }}
+                variant="contained"
+                color="primary"
+                onClick={sortByTable}
+              >
+                Sort By Table
+              </Button>
+              <TextField
+                type="number"
+                inputProps={{ style: { height: '.5em', width: '6em' } }}
+                label="Starting Table"
+                value={startTableIndex}
+                onChange={(e) => setStartTableIndex(e.target.value)}
+              />
+              <Button
+                sx={{ marginLeft: '1em' }}
+                variant="contained"
+                color="secondary"
+                onClick={showNextUnassigned}
+              >
+                Show Next Unassigned
+              </Button>
+              <Typography>{ peopleData.length - unassignedCount } / {peopleData.length} assigned seats </Typography>
+               <Button 
+                sx={{marginRight: '1em'}}
+                variant="contained" 
+                color="primary"
+                onClick={copyToClipBoard}>
+                Save
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            {error && <Typography style={{ color: '#ff0000' }}>{error}</Typography>}
+          </Grid>
+        </>
+      )}
       <Grid sx={{padding: '1em 0'}} container spacing={2}>
         <Grid item xs={12}>
           <TableContainer style={{ border: '1px solid #ddd', marginBottom: '20px' }}>
@@ -265,38 +284,44 @@ const Seating = () => {
                   <TableCell>First Name</TableCell>
                   <TableCell>Last Name</TableCell>
                   <TableCell>Table</TableCell>
-                  <TableCell>Unassign</TableCell>
+                  {!printing && <TableCell>Unassign</TableCell>}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {searchResults.map((person, index) => (
-                 <TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : 'white', lineHeight: '.5' }}>
+                 <TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : 'white', lineHeight: '0.4' }}>
                     <TableCell style={{ fontWeight: 'bold' }}>{index + 1}</TableCell>
                     <TableCell style={{ fontWeight: 'bold' }}>{person.pronoun}</TableCell>
                     <TableCell style={{ fontWeight: 'bold' }}>{person.firstName}</TableCell>
                     <TableCell style={{ fontWeight: 'bold' }}>{person.lastName}</TableCell>
                     <TableCell>
-                      <Select
-                        style={{ height: '2em' }}
-                        onChange={(e) => addPersonToTable(e.target.value, person)}
-                        value={person.tableId}
-                      >
-                        <MenuItem value='0'>Select Table</MenuItem>
-                        {tables.map((table) => (
-                          <MenuItem key={table.id} value={table.id}>
-                            {table.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      {printing ? (
+                        getTableNameById(person.tableId)
+                      ) : (
+                        <Select
+                          style={{ height: '2em' }}
+                          onChange={(e) => addPersonToTable(e.target.value, person)}
+                          value={person.tableId}
+                        >
+                          <MenuItem value='0'>Select Table</MenuItem>
+                          {tables.map((table) => (
+                            <MenuItem key={table.id} value={table.id}>
+                              {table.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      )}
                     </TableCell>
-                    <TableCell>
-                      <IconButton
-                        disabled={!person.tableId} 
-                        onClick={() => removePersonFromTable(person.tableId, person)} 
-                        style={{ marginLeft: '10px' }}>
-                      <RemoveCircleIcon />
-                    </IconButton>
-                    </TableCell>
+                    {!printing && (
+                      <TableCell>
+                        <IconButton
+                          disabled={!person.tableId} 
+                          onClick={() => removePersonFromTable(person.tableId, person)} 
+                          style={{ marginLeft: '10px' }}>
+                        <RemoveCircleIcon />
+                      </IconButton>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>
@@ -304,45 +329,56 @@ const Seating = () => {
           </TableContainer>
         </Grid>
       </Grid>
-      <Grid container spacing={2}>
-        {tables.map((table, tableIndex) => (
-          <Grid item xs={12} md={6} key={tableIndex}>
-            <div
-                className="table"
-                style={{
-                  padding: '10px',
-                  marginBottom: '20px',
-                  backgroundColor: `${table.people.length > table.max ? 'red' : table.people.length === table.max ? '#d9ffd9' : '#fff'}`,
-                  border: `${table.people.length > table.max ? '1em solid red' : table.people.length === table.max ? '1em solid green' : '3px solid #ddd'}` }}
-              >
-              <h3 id={`table_${table.id}`}>{table.name}</h3>
-                  <p>
-                    Max Capacity: {table.max} | Current Seats: {table.people.length}
-                  </p>              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {table.people.map((person, index) => (
-                  <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                    <Avatar style={{ marginRight: '10px' }}>
-                      {person.firstName.charAt(0)}
-                      {person.lastName.charAt(0)}
-                    </Avatar>
-                    <span>{person.firstName} {person.lastName}</span>
-                    <IconButton onClick={() => removePersonFromTable(table.id, person)} style={{ marginLeft: '10px' }}>
-                      <RemoveCircleIcon />
-                    </IconButton>
+      {!printing && (
+        <>
+          <Grid container spacing={2}>
+            {tables.map((table, tableIndex) => (
+              <Grid item xs={12} md={6} key={tableIndex}>
+                <div
+                    className="table"
+                    style={{
+                      padding: '10px',
+                      marginBottom: '20px',
+                      backgroundColor: `${table.people.length > table.max ? 'red' : table.people.length === table.max ? '#d9ffd9' : '#fff'}`,
+                      border: `${table.people.length > table.max ? '1em solid red' : table.people.length === table.max ? '1em solid green' : '3px solid #ddd'}` }}
+                  >
+                  <h3 id={`table_${table.id}`}>{table.name}</h3>
+                      <p>
+                        Max Capacity: {table.max} | Current Seats: {table.people.length}
+                      </p>              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {table.people.map((person, index) => (
+                      <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                        <Avatar style={{ marginRight: '10px' }}>
+                          {person.firstName.charAt(0)}
+                          {person.lastName.charAt(0)}
+                        </Avatar>
+                        <span>{person.firstName} {person.lastName}</span>
+                        <IconButton onClick={() => removePersonFromTable(table.id, person)} style={{ marginLeft: '10px' }}>
+                          <RemoveCircleIcon />
+                        </IconButton>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-     <Button 
-            sx={{marginRight: '1em'}}
-            variant="contained" 
-            color="primary"
-            onClick={copyToClipBoard}>
-            Save
+           <Button 
+              sx={{marginRight: '1em'}}
+              variant="contained" 
+              color="primary"
+              onClick={copyToClipBoard}>
+              Save
           </Button>
+          <Button 
+              sx={{marginRight: '1em'}}
+              variant="contained" 
+              color="primary"
+              onClick={print}>
+              Print
+          </Button>
+      </>
+    )}
     </Container>
   )
 }

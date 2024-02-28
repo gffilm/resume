@@ -1,0 +1,36 @@
+@media print {
+  body {
+    margin: 0;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  th {
+    background-color: #ccc;
+    color: white;
+    font-weight: bold;
+  }
+
+  td {
+    font-weight: bold;
+    height: 2px !important;
+    line-height: 2px !important;
+  }
+
+  td, tr {
+  	height: 1px;
+  }
+}
