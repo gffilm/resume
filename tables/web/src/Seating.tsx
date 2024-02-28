@@ -182,6 +182,31 @@ const Seating = () => {
     }
   }
 
+  const saveToExcel = async () => {
+    try {
+      let data = peopleData
+      data.forEach((item) => {
+        item.tableName = getTableNameById(item.tableId)
+      })
+      const apiUrl = 'http://localhost:3001/save-data-to-excel'
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (response.ok) {
+        alert('Data saved successfully!')
+      } else {
+        console.error('Failed to save data to API:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error while saving data to API', error)
+    }
+  }
+
   const getTableNameById = (tableId) => {
     const foundTable = tables.find((table) => table.id === tableId)
     return foundTable ? foundTable.name : ''
@@ -210,11 +235,8 @@ const Seating = () => {
     sortByTable()
     setPrinting(true)
     setTimeout(() => {
-      window.print()
-      setTimeout(() => {
         setPrinting(false)
-      }, 1000)
-    }, 1000)
+    }, 5000)
   }
 
    return (
@@ -236,35 +258,39 @@ const Seating = () => {
             </Grid>
             <Grid item xs={12} container justifyContent="space-between" alignItems="center">
               <Button
-                sx={{ marginRight: '1em' }}
                 variant="contained"
                 color="primary"
                 onClick={sortByTable}
               >
                 Sort By Table
               </Button>
-              <TextField
-                type="number"
-                inputProps={{ style: { height: '.5em', width: '6em' } }}
-                label="Starting Table"
-                value={startTableIndex}
-                onChange={(e) => setStartTableIndex(e.target.value)}
-              />
               <Button
-                sx={{ marginLeft: '1em' }}
+                sx={{marginRight: '5em'}}
                 variant="contained"
                 color="secondary"
                 onClick={showNextUnassigned}
               >
-                Show Next Unassigned
+                Show Unassigned
               </Button>
               <Typography>{ peopleData.length - unassignedCount } / {peopleData.length} assigned seats </Typography>
                <Button 
-                sx={{marginRight: '1em'}}
-                variant="contained" 
-                color="primary"
-                onClick={copyToClipBoard}>
-                Save
+                  sx={{marginLeft: '10em'}}
+                  variant="contained" 
+                  color="primary"
+                  onClick={copyToClipBoard}>
+                  Save
+              </Button>
+              <Button 
+                  variant="contained" 
+                  color="primary"
+                  onClick={print}>
+                  Print
+              </Button>
+              <Button 
+                  variant="contained" 
+                  color="primary"
+                  onClick={saveToExcel}>
+                  Save To Excel
               </Button>
             </Grid>
           </Grid>
@@ -376,6 +402,13 @@ const Seating = () => {
               color="primary"
               onClick={print}>
               Print
+          </Button>
+          <Button 
+              sx={{marginRight: '1em'}}
+              variant="contained" 
+              color="primary"
+              onClick={saveToExcel}>
+              Save To Excel
           </Button>
       </>
     )}
