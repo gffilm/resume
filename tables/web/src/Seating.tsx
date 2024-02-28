@@ -19,7 +19,7 @@ import {
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 
 const Seating = () => {
-  
+  const [unassignedCount, setUnassignedCount] = useState(0)
   const [error, setError] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState([])
@@ -28,21 +28,21 @@ const Seating = () => {
   const [startPeopleIndex, setStartPeopleIndex] = useState(1)
 
   const [tables, setTables] = useState([
-    { id: 1, name: 'Table 1', max: 8, people: [] },
-    { id: 2, name: 'Table 2', max: 8, people: [] },
-    { id: 3, name: 'Table 3', max: 8, people: [] },
-    { id: 4, name: 'Table 4', max: 8, people: [] },
-    { id: 5, name: 'Table 5', max: 8, people: [] },
-    { id: 6, name: 'Table 6', max: 8, people: [] },
-    { id: 7, name: 'Table 7', max: 8, people: [] },
-    { id: 8, name: 'Table 8', max: 8, people: [] },
-    { id: 9, name: 'Table 9', max: 8, people: [] },
-    { id: 10, name: 'Table 10', max: 8, people: [] },
-    { id: 11, name: 'Table 11', max: 8, people: [] },
-    { id: 12, name: 'Table 12', max: 8, people: [] },
-    { id: 13, name: 'Table 13', max: 8, people: [] },
-    { id: 14, name: 'Table 14', max: 8, people: [] },
-    { id: 15, name: 'Table 15', max: 20, people: [] },
+    { id: 1, name: 'Table 1', max: 10, people: [] },
+    { id: 2, name: 'Table 2', max: 10, people: [] },
+    { id: 3, name: 'Table 3', max: 10, people: [] },
+    { id: 4, name: 'Table 4', max: 10, people: [] },
+    { id: 5, name: 'Table 5', max: 10, people: [] },
+    { id: 6, name: 'Table 6', max: 10, people: [] },
+    { id: 7, name: 'Table 7', max: 10, people: [] },
+    { id: 8, name: 'Table 8', max: 10, people: [] },
+    { id: 9, name: 'Table 9', max: 10, people: [] },
+    { id: 10, name: 'Table 10', max: 10, people: [] },
+    { id: 11, name: 'Table 11', max: 10, people: [] },
+    { id: 12, name: 'Table 12', max: 10, people: [] },
+    { id: 13, name: 'Table 13', max: 10, people: [] },
+    { id: 14, name: 'Table 14', max: 10, people: [] },
+    { id: 15, name: 'Table 15', max: 29, people: [] },
   ])
 
   useEffect(() => {
@@ -57,6 +57,10 @@ const Seating = () => {
 
 
   useEffect(() => {
+    // Calculate unassigned count
+    const unassignedPeople = peopleData.filter(person => !person.tableId)
+    setUnassignedCount(unassignedPeople.length)
+
     const updatedTables = tables.map(table => ({
       ...table,
       people: peopleData.filter(person => person.tableId === table.id)
@@ -146,13 +150,36 @@ const Seating = () => {
   }
 
   const copyToClipBoard = async () => {
-      try {
-        await navigator.clipboard.writeText(JSON.stringify(peopleData))
-        alert('Copied to clipboard!')
-      } catch (error) {
-        console.error('Unable to copy to clipboard', error)
-      }
+    try {
+      const prettyData = JSON.stringify(peopleData, null, 2)
+      await navigator.clipboard.writeText(prettyData)
+      saveDataToAPI()
+    } catch (error) {
+      console.error('Unable to copy to clipboard', error)
     }
+  }
+
+  const saveDataToAPI = async () => {
+    try {
+      const apiUrl = 'http://localhost:3001/save-data'
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(peopleData),
+      })
+
+      if (response.ok) {
+        alert('Data saved successfully!')
+      } else {
+        console.error('Failed to save data to API:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error while saving data to API', error)
+    }
+  }
+
 
   const showNextUnassigned = () => {
     // Fetch all unassigned people
@@ -183,39 +210,51 @@ const Seating = () => {
             type="text"
             placeholder="Search people..."
             value={searchTerm}
-             onChange={(e) => {
-              setSearchTerm(e.target.value)
-              handleSearch()
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              handleSearch();
             }}
           />
         </Grid>
-         <Grid item xs={12}>
-          <Button 
-            sx={{marginRight: '1em'}}
-            variant="contained" 
+        <Grid item xs={12} container justifyContent="space-between" alignItems="center">
+          <Button
+            sx={{ marginRight: '1em' }}
+            variant="contained"
             color="primary"
-            disabled={!searchResults.length} 
-            onClick={autoAssign}>
+            disabled={!searchResults.length}
+            onClick={autoAssign}
+          >
             Auto Assign
           </Button>
           <TextField
             type="number"
-            inputProps={{ style: { height: '.5em', width: '6em', } }}
+            inputProps={{ style: { height: '.5em', width: '6em' } }}
             label="Starting Table"
             value={startTableIndex}
             onChange={(e) => setStartTableIndex(e.target.value)}
           />
-          <Button sx={{marginLeft: '1em'}} variant="contained" color="secondary" onClick={showNextUnassigned}>
+          <Button
+            sx={{ marginLeft: '1em' }}
+            variant="contained"
+            color="secondary"
+            onClick={showNextUnassigned}
+          >
             Show Next Unassigned
           </Button>
-        </Grid>
-        <Grid item xs={12}>
-          {error && <Typography style={{ color: '#ff0000' }}>{error}</Typography>}
+          <Typography>{ peopleData.length - unassignedCount } / {peopleData.length} assigned seats </Typography>
+           <Button 
+            sx={{marginRight: '1em'}}
+            variant="contained" 
+            color="primary"
+            onClick={copyToClipBoard}>
+            Save
+          </Button>
         </Grid>
       </Grid>
-
-
-      <Grid container spacing={2}>
+      <Grid item xs={12}>
+        {error && <Typography style={{ color: '#ff0000' }}>{error}</Typography>}
+      </Grid>
+      <Grid sx={{padding: '1em 0'}} container spacing={2}>
         <Grid item xs={12}>
           <TableContainer style={{ border: '1px solid #ddd', marginBottom: '20px' }}>
             <Table>
@@ -270,9 +309,9 @@ const Seating = () => {
             <div
                 className="table"
                 style={{
-                  border: '1px solid #ddd',
                   padding: '10px',
                   marginBottom: '20px',
+                  backgroundColor: `${table.people.length > table.max ? 'red' : table.people.length === table.max ? '#d9ffd9' : '#fff'}`,
                   border: `${table.people.length > table.max ? '1em solid red' : table.people.length === table.max ? '1em solid green' : '3px solid #ddd'}` }}
               >
               <h3 id={`table_${table.id}`}>{table.name}</h3>
@@ -301,7 +340,7 @@ const Seating = () => {
             variant="contained" 
             color="primary"
             onClick={copyToClipBoard}>
-            Copy
+            Save
           </Button>
     </Container>
   )

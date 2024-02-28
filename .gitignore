@@ -6,3 +6,4 @@ reader/api/node_modules/*
 reader/node_modules/*
 *.env
 tables/web/node_modules/*
+tables/api/node_modules/*
