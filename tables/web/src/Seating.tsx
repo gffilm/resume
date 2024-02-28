@@ -100,6 +100,11 @@ const Seating = () => {
     setPeopleData(updatedPeopleData)
   }
 
+  const sortByTable = () => {
+    let sortedPeople = peopleData.sort((a, b) => a.tableId - b.tableId)
+    setSearchResults(sortedPeople)
+  }
+
   const autoAssign = () => {
     if (searchTerm) {
       let sortedPeople = searchResults.sort((a, b) => a.lastName.localeCompare(b.lastName))
@@ -207,8 +212,8 @@ const Seating = () => {
             placeholder="Search people..."
             value={searchTerm}
             onChange={(e) => {
-              setSearchTerm(e.target.value);
-              handleSearch();
+              setSearchTerm(e.target.value)
+              handleSearch()
             }}
           />
         </Grid>
@@ -217,10 +222,9 @@ const Seating = () => {
             sx={{ marginRight: '1em' }}
             variant="contained"
             color="primary"
-            disabled={!searchResults.length}
-            onClick={autoAssign}
+            onClick={sortByTable}
           >
-            Auto Assign
+            Sort By Table
           </Button>
           <TextField
             type="number"
@@ -260,8 +264,8 @@ const Seating = () => {
                   <TableCell>Pronoun</TableCell>
                   <TableCell>First Name</TableCell>
                   <TableCell>Last Name</TableCell>
-                  <TableCell>Table #</TableCell>
                   <TableCell>Table</TableCell>
+                  <TableCell>Unassign</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -271,7 +275,6 @@ const Seating = () => {
                     <TableCell style={{ fontWeight: 'bold' }}>{person.pronoun}</TableCell>
                     <TableCell style={{ fontWeight: 'bold' }}>{person.firstName}</TableCell>
                     <TableCell style={{ fontWeight: 'bold' }}>{person.lastName}</TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }}>{person.tableId || ''}</TableCell>
                     <TableCell>
                       <Select
                         style={{ height: '2em' }}
@@ -285,6 +288,8 @@ const Seating = () => {
                           </MenuItem>
                         ))}
                       </Select>
+                    </TableCell>
+                    <TableCell>
                       <IconButton
                         disabled={!person.tableId} 
                         onClick={() => removePersonFromTable(person.tableId, person)} 
