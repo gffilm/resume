@@ -36,10 +36,11 @@ const Seating = () => {
     { id: 5, name: 'Table 5', max: 10, people: [] },
     { id: 6, name: 'Table 6', max: 10, people: [] },
     { id: 8, name: 'Table 7', max: 10, people: [] },
-    { id: 9, name: 'Table 8', max: 10, people: [] },
+    { id: 9, name: 'Table 8', max: 8, people: [] },
     { id: 10, name: 'Table 9', max: 8, people: [] },
     { id: 12, name: 'Table 10', max: 10, people: [] },
-    { id: 15, name: 'Table 11', max: 34, people: [] },
+    { id: 14, name: 'Table 11', max: 10, people: [] },
+    { id: 15, name: 'Table 12', max: 34, people: [] },
   ])
 
   useEffect(() => {
@@ -102,7 +103,11 @@ const Seating = () => {
   }
 
   const sortByTable = () => {
-    let sortedPeople = peopleData.sort((a, b) => a.tableId - b.tableId)
+    let sortedPeople = peopleData.sort((a, b) => a.tableId - b.tableId);
+    sortedPeople = sortedPeople.map((person, index) => ({
+      ...person,
+      shouldAddPageBreak: person.tableId !== (sortedPeople[index + 1]?.tableId)
+    }))
     setSearchResults(sortedPeople)
   }
 
@@ -290,7 +295,7 @@ const Seating = () => {
                   variant="contained" 
                   color="primary"
                   onClick={saveToExcel}>
-                  Save To Excel
+                  Export
               </Button>
             </Grid>
           </Grid>
@@ -315,7 +320,7 @@ const Seating = () => {
               </TableHead>
               <TableBody>
                 {searchResults.map((person, index) => (
-                 <TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : 'white', lineHeight: '0.4' }}>
+                 <TableRow className={`${person.shouldAddPageBreak ? 'print-break' : ''}`} key={index} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : 'white', lineHeight: '0.4' }}>
                     <TableCell style={{ fontWeight: 'bold' }}>{index + 1}</TableCell>
                     <TableCell style={{ fontWeight: 'bold' }}>{person.pronoun}</TableCell>
                     <TableCell style={{ fontWeight: 'bold' }}>{person.firstName}</TableCell>
@@ -368,7 +373,9 @@ const Seating = () => {
                       backgroundColor: `${table.people.length > table.max ? 'red' : table.people.length === table.max ? '#d9ffd9' : '#fff'}`,
                       border: `${table.people.length > table.max ? '1em solid red' : table.people.length === table.max ? '1em solid green' : '3px solid #ddd'}` }}
                   >
-                  <h3 id={`table_${table.id}`}>{table.name}</h3>
+                  <h3 id={`table_${table.id}`}>
+                    {table.name}
+                  </h3>
                       <p>
                         Max Capacity: {table.max} | Current Seats: {table.people.length}
                       </p>              <div style={{ display: 'flex', flexDirection: 'column' }}>

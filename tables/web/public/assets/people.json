@@ -291,14 +291,14 @@
     "firstName": "Brad",
     "lastName": "Olswang",
     "pronoun": "Mr.",
-    "tableId": 9
+    "tableId": 14
   },
   {
     "id": 44,
     "firstName": "Aliza",
     "lastName": "Olswang",
     "pronoun": "Mrs.",
-    "tableId": 9
+    "tableId": 14
   },
   {
     "id": 46,
@@ -595,13 +595,6 @@
     "tableId": 15
   },
   {
-    "id": 88,
-    "firstName": "Moe",
-    "lastName": "Glenner",
-    "pronoun": "Mr.",
-    "tableId": 10
-  },
-  {
     "id": 89,
     "firstName": "Sheila",
     "lastName": "Glenner",
@@ -879,14 +872,14 @@
     "firstName": "Stanford",
     "lastName": "Gertz",
     "pronoun": "Mr",
-    "tableId": 9
+    "tableId": 14
   },
   {
     "id": 129,
     "firstName": "Mashie",
     "lastName": "Gertz",
     "pronoun": "Mrs",
-    "tableId": 9
+    "tableId": 14
   },
   {
     "id": 131,
@@ -904,9 +897,37 @@
   },
   {
     "id": 133,
-    "firstName": "Merle",
-    "lastName": "",
+    "firstName": "Evan",
+    "lastName": "Natanson",
+    "pronoun": "Mr",
+    "tableId": 14
+  },
+  {
+    "id": 134,
+    "firstName": "Talia",
+    "lastName": "Natanson",
     "pronoun": "Miss",
-    "tableId": 12
+    "tableId": 14
+  },
+  {
+    "id": 135,
+    "firstName": "Evan",
+    "lastName": "Natanson",
+    "pronoun": "Mr",
+    "tableId": 14
+  },
+  {
+    "id": 136,
+    "firstName": "Adina",
+    "lastName": "Natanson",
+    "pronoun": "Mrs",
+    "tableId": 14
+  },
+  {
+    "id": 137,
+    "firstName": "Jason",
+    "lastName": "Natanson",
+    "pronoun": "Mr",
+    "tableId": 14
   }
 ]
