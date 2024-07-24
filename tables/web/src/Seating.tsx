@@ -242,6 +242,12 @@ const Seating = () => {
     setTimeout(() => {
         setPrinting(false)
     }, 5000)
+      let log = ''
+
+    tables.forEach((table) => {
+      log +=  table.people.length + "\n"
+    })
+    console.log(log)
   }
 
    return (

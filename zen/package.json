@@ -1,0 +1,16 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "Reader",
+  "scripts": {
+    "build:web": "cd web && npm run build",
+    "build:api": "cd api && npm run build",
+    "start": "concurrently \"npm run build:api\" \"npm run build:web\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

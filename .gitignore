@@ -7,3 +7,7 @@ reader/node_modules/*
 *.env
 tables/web/node_modules/*
 tables/api/node_modules/*
+tables/node_modules/*
+zen/api/node_modules/*
+zen/web/node_modules/*
+zen/node_modules/*
