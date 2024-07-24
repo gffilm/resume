@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 const TextToSpeechQueue = ({ texts }) => {
   texts.push('')
+  const [attempts, setAttempts] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [voices, setVoices] = useState([])
 
   useEffect(() => {
+    if (voices.length) {
+      return
+    }
     // Fetch voices and store them in state
     const fetchVoices = () => {
       const synth = window.speechSynthesis
@@ -26,7 +30,10 @@ const TextToSpeechQueue = ({ texts }) => {
     }
 
     fetchVoices()
-  }, [])
+    setTimeout(() => {
+      setAttempts(attempts + 1)
+    }, 1000)
+  }, [attempts])
 
   useEffect(() => {
     if (voices.length > 0 && !isSpeaking && texts.length > 0) {
@@ -43,7 +50,7 @@ const TextToSpeechQueue = ({ texts }) => {
 
           const getFemaleUKVoice = () => {
             const femaleUKVoices = voices.filter(voice => voice.name.toLowerCase().includes('google uk english female'))
-            return femaleUKVoices[0]
+            return femaleUKVoices[0] // Return the first female UK voice if found
           }
 
           const selectedVoice = getFemaleUKVoice() || voices[0]
