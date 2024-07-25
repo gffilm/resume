@@ -18,13 +18,14 @@ const Zen = () => {
   const [fadeOut, setFadeOut] = useState(false)
   const [fadeOutText, setFadeOutText] = useState(false)
   const [text, setText] = useState('')
+  const [prompts, setPrompts] = useState([])
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeOut(true)
       setTimeout(() => setLoading(false), 500)
       setTimeout(() => {
-        setText('Welcome to Zen! How can I help you?')
+        setPrompts(['Ask me if I would like to learn a subject, any subject that is on my mind'])
       }, 2500)
 
       setTimeout(() => setPlayAmbient(true), 2000)
@@ -37,6 +38,14 @@ const Zen = () => {
     return () => clearTimeout(timer)
   }, [])
 
+
+ useEffect(() => {
+    if (prompts.length) {
+      handleCompletion()
+    }
+  }, [prompts])
+
+
   const handleTranscription = (text) => {
     if (!startTranscriber) {
       return
@@ -46,7 +55,7 @@ const Zen = () => {
     console.log('Heard', text)
     setFadeOutText(true)
     setTimeout(() => {
-      getResponse(text)
+      setPrompts([...prompts, text])
     }, 2000)
   }
 
@@ -58,15 +67,15 @@ const Zen = () => {
     }, 1000)
   }
 
-  const getResponse = async (text) => {
-    console.log('Getting completion response...')
+  const handleCompletion = async () => {
     setText('')
+    console.log('Getting completion response...', prompts)
     const response = await fetch('http://localhost:3001/completion', {
        method: 'POST',
        headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ text }) 
+      body: JSON.stringify({ prompts }) 
     })
     const data = await response.json()
 

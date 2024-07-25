@@ -39,9 +39,9 @@ app.post("/transcribe", upload.single('file'), async (req, res) => {
 })
 
 app.post("/completion", async (req, res) => {
-  const { text } = req.body
+  const { prompts } = req.body
   try {
-    const response = await completion(text)
+    const response = await completion(prompts)
     res.send({ response })
   } catch (error) {
     console.error('Error handling completion request:', error)

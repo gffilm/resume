@@ -50,19 +50,26 @@ async function textToSpeech(text) {
   }
 }
 
-async function completion(text) {
-  const prompt = `Respond in 1-2 sentences: ${text}`
+async function completion(prompts) {
+  const messages = []
+  let system = 'Respond in 1-2 sentences'
+  
+  if (prompts.length === 1) {
+    system = 'Welcome the user to Zen. ' + system
+  }
+  
+  messages.push({ role: 'system', content: system})
+
+  prompts.forEach((prompt) => {
+    messages.push({role: 'user', content: prompt})
+  })
+
   try {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
         model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
+        messages,
         max_tokens: 100, // Adjust max tokens as needed
         temperature: 0.7 // Adjust temperature as needed
       },

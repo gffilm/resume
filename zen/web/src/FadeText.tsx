@@ -40,7 +40,7 @@ const FadeText = ({ text, fadeOut, onComplete }) => {
     <Grid className="text-overlay">
       <CSSTransition
         in={showText}
-        timeout={20000}
+        timeout={30000}
         classNames="fade"
         mountOnEnter
         unmountOnExit

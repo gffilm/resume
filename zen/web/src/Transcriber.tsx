@@ -45,6 +45,7 @@ const Transcriber = ({ onTranscription, enableMicrophone }) => {
 
       newMediaRecorder.onstop = () => {
         if (audioChunksRef.current.length > 0 && voiceDetectedRef.current) {
+          enableMicrophone = false
           const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
           sendAudioForTranscription(audioBlob)
           audioChunksRef.current = []
