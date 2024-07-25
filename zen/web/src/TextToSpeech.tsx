@@ -38,6 +38,7 @@ const TextToSpeechQueue = ({ texts }) => {
   useEffect(() => {
     if (voices.length > 0 && !isSpeaking && texts.length > 0) {
       setIsSpeaking(true)
+      console.log('Playing text')
     }
   }, [voices, isSpeaking, texts.length])
 

@@ -1,7 +1,7 @@
 // vite.config.js or vite.config.ts
 export default {
   server: {
-    host: '172.18.208.1',
+    //host: '172.18.208.1',
     port: 3000,
   },
   // other config options...
