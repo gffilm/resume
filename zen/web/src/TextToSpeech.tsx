@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-const TextToSpeechQueue = ({ texts }) => {
-  texts.push('')
+const TextToSpeechQueue = ({ text }) => {
   const [attempts, setAttempts] = useState(0)
-  const [currentIndex, setCurrentIndex] = useState(0)
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [voices, setVoices] = useState([])
 
@@ -36,47 +34,38 @@ const TextToSpeechQueue = ({ texts }) => {
   }, [attempts])
 
   useEffect(() => {
-    if (voices.length > 0 && !isSpeaking && texts.length > 0) {
+    if (voices.length > 0 && !isSpeaking && text) {
       setIsSpeaking(true)
       console.log('Playing text')
     }
-  }, [voices, isSpeaking, texts.length])
+  }, [voices, isSpeaking, text])
 
   useEffect(() => {
-    if (isSpeaking && texts.length > 0) {
-      const speakNext = () => {
-        if (currentIndex < texts.length) {
-          const text = texts[currentIndex]
-          const synth = window.speechSynthesis
+    if (isSpeaking && text) {
+      const speak = () => {
+        const synth = window.speechSynthesis
 
-          const getFemaleUKVoice = () => {
-            const femaleUKVoices = voices.filter(voice => voice.name.toLowerCase().includes('google uk english female'))
-            return femaleUKVoices[0] // Return the first female UK voice if found
-          }
-
-          const selectedVoice = getFemaleUKVoice() || voices[0]
-          const utterance = new SpeechSynthesisUtterance(text)
-          utterance.voice = selectedVoice
-          utterance.rate = 0.8
-          utterance.pitch = 1
-
-          utterance.onend = () => {
-            setTimeout(() => {
-              setCurrentIndex(prevIndex => prevIndex + 1)
-            }, 3000) 
-
-            if (currentIndex >= texts.length - 1) {
-              setIsSpeaking(false)
-            }
-          }
-
-          synth.speak(utterance)
+        const getFemaleUKVoice = () => {
+          const femaleUKVoices = voices.filter(voice => voice.name.toLowerCase().includes('google uk english female'))
+          return femaleUKVoices[0] // Return the first female UK voice if found
         }
+
+        const selectedVoice = getFemaleUKVoice() || voices[0]
+        const utterance = new SpeechSynthesisUtterance(text)
+        utterance.voice = selectedVoice
+        utterance.rate = 0.8
+        utterance.pitch = 1
+
+        utterance.onend = () => {
+          setIsSpeaking(false)
+        }
+
+        synth.speak(utterance)
       }
 
-      speakNext()
+      speak()
     }
-  }, [isSpeaking, currentIndex, texts, voices])
+  }, [isSpeaking, text, voices])
 
   return null
 }

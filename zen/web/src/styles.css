@@ -39,6 +39,15 @@ html, body {
   }
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .image-loader {
   position: relative;
   height: 100vh;
@@ -56,7 +65,20 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  animation: fadeIn30 10s forwards 4s;
+  animation: fadeIn30 10s forwards 1s;
   opacity: 0;
+}
 
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 10s forwards 4s;
+}
+
+.text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
 }
