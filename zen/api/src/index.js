@@ -3,7 +3,7 @@ const fs = require("fs").promises
 const path = require("path")
 const cors = require("cors")
 const multer = require("multer")
-const { transcribeAudio } = require("./openai")
+const { transcribeAudio, completion } = require("./openai")
 
 const app = express()
 const port = 3001
@@ -35,6 +35,17 @@ app.post("/transcribe", upload.single('file'), async (req, res) => {
   } catch (error) {
     console.error('Error handling transcription request:', error)
     res.status(500).send({ error: "Transcription failed" })
+  }
+})
+
+app.post("/completion", async (req, res) => {
+  const { text } = req.body
+  try {
+    const response = await completion(text)
+    res.send({ response })
+  } catch (error) {
+    console.error('Error handling completion request:', error)
+    res.status(500).send({ error: "Completion failed" })
   }
 })
 

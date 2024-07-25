@@ -15,21 +15,22 @@ const Zen = () => {
   const [startTranscriber, setStartTranscriber] = useState(false)
   const [playMusic, setPlayMusic] = useState(false)
   const [fadeOut, setFadeOut] = useState(false)
+  const [fadeOutText, setFadeOutText] = useState(false)
   const [textToSpeak, setTextToSpeak] = useState('')
-  const [transcriptionText, setTranscriptionText] = useState('')
+  const [text, setText] = useState('')
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeOut(true)
       setTimeout(() => setLoading(false), 500)
+      setTimeout(() => {
+        setText('Welcome to Zen! How can I help you?')
+      }, 2500)
+
       setTimeout(() => setPlayAmbient(true), 2000)
       setTimeout(() => setPlaySoundFX(true), 9000)
       setTimeout(() => setStartSpeaking(true), 13000)
       setTimeout(() => setPlayMusic(true), 20000)
-      setTimeout(() => {
-        handleTranscription('This is a sample transcription text')
-      }, 3000)
-      return
       setTimeout(() => setStartTranscriber(true), 2000)
     }, 2000)
 
@@ -37,23 +38,33 @@ const Zen = () => {
   }, [])
 
   const handleTranscription = (text) => {
-    setTranscriptionText(text)
-    getResponse(text);
+    console.log('Heard', text)
+    setFadeOutText(true)
+    setTimeout(() => {
+      getResponse(text)
+    }, 2000)
   }
 
   const getResponse = async (text) => {
-    console.log('Get response', text)
+    console.log('Getting completion response...')
+    setText('')
     const response = await fetch('http://localhost:3001/completion', {
-         method: 'POST',
-         body: text
-      })
+       method: 'POST',
+       headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ text }) 
+    })
+    const data = await response.json()
+
+    if (data && data.response) {
+      console.log('Got Response', data.response)
+      setText(data.response)
+    }
   }
 
   const handleDoneFading = () => {
-    setTranscriptionText('')
-    setTimeout(() => {
-      handleTranscription('You go girl')
-    })
+    console.log('Done fading')
   }
 
   return (
@@ -77,7 +88,7 @@ const Zen = () => {
         )}
 
         {!loading && <ImageLoader src="https://img.freepik.com/free-photo/ultra-detailed-nebula-abstract-wallpaper-4_1562-749.jpg?w=740&t=st=1721791331~exp=1721791931~hmac=fae8f8967cdd4cae30672efe3ad3a3d19697ac5f34de62773e5e75c7d68bf816" />}
-        {transcriptionText && <FadeText text={transcriptionText} onComplete={handleDoneFading} />}
+        {text && <FadeText fadeOut={fadeOutText} text={text} onComplete={handleDoneFading} />}
         {startTranscriber && <Transcriber onTranscription={handleTranscription} />}
         {playAmbient && <AudioPlayer title="ambient" videoId="DVHaSmW9QNA" />}
         {playSoundFX && <AudioPlayerWithVolume title="sound fx" volume={20} videoId="X0NgSuFY2bk" />}

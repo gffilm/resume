@@ -65,7 +65,7 @@ const Transcriber = ({ onTranscription }) => {
             newMediaRecorder.start() // Start recording when noise is detected
           }
           // Check if the noise lasts long enough to be considered as voice
-          if (rms > 0.01) { // Adjust this threshold as needed for sensitivity
+          if (rms > 0.001) { // Adjust this threshold as needed for sensitivity
             voiceDetected = true
           }
         }
