@@ -25,13 +25,8 @@ const FadeText = ({ text, fadeOut, onComplete }) => {
       setShowText(true)
     })
 
-    const hideTimer = setTimeout(() => {
-      setShowText(false)
-    }, 10000) 
-
     return () => {
       clearTimeout(timer)
-      clearTimeout(hideTimer)
     }
   }, [])
 
@@ -45,7 +40,7 @@ const FadeText = ({ text, fadeOut, onComplete }) => {
     <Grid className="text-overlay">
       <CSSTransition
         in={showText}
-        timeout={10000}
+        timeout={20000}
         classNames="fade"
         mountOnEnter
         unmountOnExit

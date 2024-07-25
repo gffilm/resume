@@ -1,73 +1,41 @@
 import React, { useEffect, useState } from 'react'
 
-const TextToSpeechQueue = ({ text }) => {
-  const [attempts, setAttempts] = useState(0)
+const TextToSpeech = ({ text, onEnd }) => {
   const [isSpeaking, setIsSpeaking] = useState(false)
-  const [voices, setVoices] = useState([])
 
   useEffect(() => {
-    if (voices.length) {
-      return
-    }
-    // Fetch voices and store them in state
-    const fetchVoices = () => {
-      const synth = window.speechSynthesis
-      const handleVoicesChanged = () => {
-        const availableVoices = synth.getVoices()
-        if (availableVoices.length > 0) {
-          setVoices(availableVoices)
-          window.speechSynthesis.onvoiceschanged = null
-        }
-      }
-
-      if (synth.onvoiceschanged) {
-        window.speechSynthesis.onvoiceschanged = handleVoicesChanged
-      } else {
-        handleVoicesChanged()
-      }
-    }
-
-    fetchVoices()
-    setTimeout(() => {
-      setAttempts(attempts + 1)
-    }, 1000)
-  }, [attempts])
-
-  useEffect(() => {
-    if (voices.length > 0 && !isSpeaking && text) {
+    if (text && !isSpeaking) {
       setIsSpeaking(true)
-      console.log('Playing text')
+      playTextToSpeech(text)
     }
-  }, [voices, isSpeaking, text])
+  }, [text, isSpeaking])
 
-  useEffect(() => {
-    if (isSpeaking && text) {
-      const speak = () => {
-        const synth = window.speechSynthesis
+  const playTextToSpeech = async (text) => {
+    try {
+      const response = await fetch('http://localhost:3001/tts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text }),
+      })
 
-        const getFemaleUKVoice = () => {
-          const femaleUKVoices = voices.filter(voice => voice.name.toLowerCase().includes('google uk english female'))
-          return femaleUKVoices[0] // Return the first female UK voice if found
-        }
+      const audioBuffer = await response.arrayBuffer()
+      const audioBlob = new Blob([audioBuffer], { type: 'audio/mpeg' })
+      const audioUrl = URL.createObjectURL(audioBlob)
+      const audio = new Audio(audioUrl)
+      audio.play()
 
-        const selectedVoice = getFemaleUKVoice() || voices[0]
-        const utterance = new SpeechSynthesisUtterance(text)
-        utterance.voice = selectedVoice
-        utterance.rate = 0.8
-        utterance.pitch = 1
-
-        utterance.onend = () => {
-          setIsSpeaking(false)
-        }
-
-        synth.speak(utterance)
+      audio.onended = () => {
+        onEnd()
       }
 
-      speak()
+    } catch (error) {
+      console.error('Error during text to speech:', error)
     }
-  }, [isSpeaking, text, voices])
+  }
 
   return null
 }
 
-export default TextToSpeechQueue
+export default TextToSpeech

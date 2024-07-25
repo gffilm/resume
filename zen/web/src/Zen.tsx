@@ -13,10 +13,10 @@ const Zen = () => {
   const [playSoundFX, setPlaySoundFX] = useState(false)
   const [startSpeaking, setStartSpeaking] = useState(false)
   const [startTranscriber, setStartTranscriber] = useState(false)
+  const [enableMicrophone, setEnableMicrophone] = useState(false)
   const [playMusic, setPlayMusic] = useState(false)
   const [fadeOut, setFadeOut] = useState(false)
   const [fadeOutText, setFadeOutText] = useState(false)
-  const [textToSpeak, setTextToSpeak] = useState('')
   const [text, setText] = useState('')
 
   useEffect(() => {
@@ -30,19 +30,32 @@ const Zen = () => {
       setTimeout(() => setPlayAmbient(true), 2000)
       setTimeout(() => setPlaySoundFX(true), 9000)
       setTimeout(() => setStartSpeaking(true), 13000)
+      setTimeout(() => setStartTranscriber(true), 1000)
       setTimeout(() => setPlayMusic(true), 20000)
-      setTimeout(() => setStartTranscriber(true), 2000)
     }, 2000)
 
     return () => clearTimeout(timer)
   }, [])
 
   const handleTranscription = (text) => {
+    if (!startTranscriber) {
+      return
+    }
+    console.log('Disabling Transcriber')
+    setEnableMicrophone(false)
     console.log('Heard', text)
     setFadeOutText(true)
     setTimeout(() => {
       getResponse(text)
     }, 2000)
+  }
+
+  const handleAudioEnded = () => {
+    console.log('Enabling Transcriber')
+    setEnableMicrophone(true)
+    setTimeout(() => {
+      setFadeOutText(true)
+    }, 1000)
   }
 
   const getResponse = async (text) => {
@@ -89,11 +102,11 @@ const Zen = () => {
 
         {!loading && <ImageLoader src="https://img.freepik.com/free-photo/ultra-detailed-nebula-abstract-wallpaper-4_1562-749.jpg?w=740&t=st=1721791331~exp=1721791931~hmac=fae8f8967cdd4cae30672efe3ad3a3d19697ac5f34de62773e5e75c7d68bf816" />}
         {text && <FadeText fadeOut={fadeOutText} text={text} onComplete={handleDoneFading} />}
-        {startTranscriber && <Transcriber onTranscription={handleTranscription} />}
+        {startTranscriber && <Transcriber enableMicrophone={enableMicrophone} onTranscription={handleTranscription} />}
         {playAmbient && <AudioPlayer title="ambient" videoId="DVHaSmW9QNA" />}
         {playSoundFX && <AudioPlayerWithVolume title="sound fx" volume={20} videoId="X0NgSuFY2bk" />}
         {playMusic && <AudioPlayer title="music" videoId="eD2uecOlPvQ" />}
-        {textToSpeak && <TextToSpeech text={textToSpeak} />}
+        {text && <TextToSpeech text={text} onEnd={handleAudioEnded} />}
       </Box>
     </section>
   )

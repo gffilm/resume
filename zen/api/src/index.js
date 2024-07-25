@@ -3,7 +3,7 @@ const fs = require("fs").promises
 const path = require("path")
 const cors = require("cors")
 const multer = require("multer")
-const { transcribeAudio, completion } = require("./openai")
+const { transcribeAudio, textToSpeech, completion } = require("./openai")
 
 const app = express()
 const port = 3001
@@ -46,6 +46,18 @@ app.post("/completion", async (req, res) => {
   } catch (error) {
     console.error('Error handling completion request:', error)
     res.status(500).send({ error: "Completion failed" })
+  }
+})
+
+app.post("/tts", async (req, res) => {
+  const { text } = req.body
+  try {
+    const audioBuffer = await textToSpeech(text);
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.send(audioBuffer)
+  } catch (error) {
+    console.error('Error handling TTS request:', error)
+    res.status(500).send({ error: "TTS failed" })
   }
 })
 

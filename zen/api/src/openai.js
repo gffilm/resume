@@ -1,4 +1,3 @@
-// openai.js
 const axios = require('axios')
 const FormData = require('form-data')
 const fs = require('fs')
@@ -22,6 +21,31 @@ async function transcribeAudio(audioBuffer) {
     return response.data
   } catch (error) {
     console.error('Error during transcription:', error)
+    throw error
+  }
+}
+
+async function textToSpeech(text) {
+  try {
+    const response = await axios.post(
+      'https://api.openai.com/v1/audio/speech',
+      {
+        model: 'tts-1',
+        input: text,
+        voice: 'alloy'
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        responseType: 'arraybuffer'
+      }
+    )
+
+    return response.data
+  } catch (error) {
+    console.error('Error during tts:', error)
     throw error
   }
 }
@@ -63,5 +87,6 @@ module.exports = {
 
 module.exports = {
   transcribeAudio,
+  textToSpeech,
   completion
 }
