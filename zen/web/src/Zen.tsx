@@ -20,10 +20,18 @@ const Zen = () => {
   const [text, setText] = useState('')
   const [prompts, setPrompts] = useState([])
 
-  const [ambientVolume, setAmbientVolume] = useState(20)
-  const [soundFXVolume, setSoundFXVolume] = useState(30)
-  const [musicVolume, setMusicVolume] = useState(40)
-  const [speechVolume, setSpeechVolume] = useState(100)
+  const [ambientVolume, setAmbientVolume] = useState(() => {
+    return parseInt(localStorage.getItem('ambientVolume')) || 20
+  })
+  const [soundFXVolume, setSoundFXVolume] = useState(() => {
+    return parseInt(localStorage.getItem('soundFXVolume')) || 30
+  })
+  const [musicVolume, setMusicVolume] = useState(() => {
+    return parseInt(localStorage.getItem('musicVolume')) || 40
+  })
+  const [speechVolume, setSpeechVolume] = useState(() => {
+    return parseInt(localStorage.getItem('speechVolume')) || 100
+  })
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -93,6 +101,11 @@ const Zen = () => {
     console.log('Done fading')
   }
 
+  const handleSliderChange = (setter, key) => (e, newValue) => {
+    setter(newValue)
+    localStorage.setItem(key, newValue)
+  }
+
   return (
     <section className="fade-background">
       <Box
@@ -126,7 +139,7 @@ const Zen = () => {
             <Typography color='#fff'>Speech</Typography>
             <Slider
               value={speechVolume}
-              onChange={(e, newValue) => setSpeechVolume(newValue)}
+              onChange={handleSliderChange(setSpeechVolume, 'speechVolume')}
               min={0}
               max={100}
               valueLabelDisplay="auto"
@@ -134,7 +147,7 @@ const Zen = () => {
             <Typography color='#fff'>Ambient</Typography>
             <Slider
               value={ambientVolume}
-              onChange={(e, newValue) => setAmbientVolume(newValue)}
+              onChange={handleSliderChange(setAmbientVolume, 'ambientVolume')}
               min={0}
               max={100}
               valueLabelDisplay="auto"
@@ -142,7 +155,7 @@ const Zen = () => {
             <Typography color='#fff'>Waves</Typography>
             <Slider
               value={soundFXVolume}
-              onChange={(e, newValue) => setSoundFXVolume(newValue)}
+              onChange={handleSliderChange(setSoundFXVolume, 'soundFXVolume')}
               min={0}
               max={100}
               valueLabelDisplay="auto"
@@ -150,7 +163,7 @@ const Zen = () => {
             <Typography color='#fff'>Music</Typography>
             <Slider
               value={musicVolume}
-              onChange={(e, newValue) => setMusicVolume(newValue)}
+              onChange={handleSliderChange(setMusicVolume, 'musicVolume')}
               min={0}
               max={100}
               valueLabelDisplay="auto"
