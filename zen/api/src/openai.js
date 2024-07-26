@@ -54,9 +54,6 @@ async function completion(prompts) {
   const messages = []
   let system = 'Respond in 1-2 sentences'
   
-  if (prompts.length === 1) {
-    system = 'Welcome the user to Zen. ' + system
-  }
   
   messages.push({ role: 'system', content: system})
 

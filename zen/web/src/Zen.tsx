@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Typography, CircularProgress } from '@mui/material'
+import { Box, Typography, CircularProgress, Slider } from '@mui/material'
 import ImageLoader from './ImageLoader'
-import AudioPlayer from './AudioPlayer'
 import AudioPlayerWithVolume from './AudioPlayerWithVolume'
 import TextToSpeech from './TextToSpeech'
 import Transcriber from './Transcriber'
@@ -9,6 +8,7 @@ import FadeText from './FadeText'
 
 const Zen = () => {
   const [loading, setLoading] = useState(true)
+  const [controlsReady, setControlsReady] = useState(false)
   const [playAmbient, setPlayAmbient] = useState(false)
   const [playSoundFX, setPlaySoundFX] = useState(false)
   const [startSpeaking, setStartSpeaking] = useState(false)
@@ -20,31 +20,35 @@ const Zen = () => {
   const [text, setText] = useState('')
   const [prompts, setPrompts] = useState([])
 
+  const [ambientVolume, setAmbientVolume] = useState(20)
+  const [soundFXVolume, setSoundFXVolume] = useState(30)
+  const [musicVolume, setMusicVolume] = useState(40)
+  const [speechVolume, setSpeechVolume] = useState(100)
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeOut(true)
       setTimeout(() => setLoading(false), 500)
       setTimeout(() => {
-        setPrompts(['Ask me if I would like to learn a subject, any subject that is on my mind'])
+        setText('Welcome to Zen! What would you like to learn about?')
       }, 2500)
 
       setTimeout(() => setPlayAmbient(true), 2000)
-      setTimeout(() => setPlaySoundFX(true), 9000)
+      setTimeout(() => setPlaySoundFX(true), 3000)
+      setTimeout(() => setPlayMusic(true), 4000)
       setTimeout(() => setStartSpeaking(true), 13000)
+      setTimeout(() => setControlsReady(true), 6000)
       setTimeout(() => setStartTranscriber(true), 1000)
-      setTimeout(() => setPlayMusic(true), 20000)
     }, 2000)
 
     return () => clearTimeout(timer)
   }, [])
 
-
- useEffect(() => {
+  useEffect(() => {
     if (prompts.length) {
       handleCompletion()
     }
   }, [prompts])
-
 
   const handleTranscription = (text) => {
     if (!startTranscriber) {
@@ -71,11 +75,11 @@ const Zen = () => {
     setText('')
     console.log('Getting completion response...', prompts)
     const response = await fetch('http://localhost:3001/completion', {
-       method: 'POST',
-       headers: {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ prompts }) 
+      body: JSON.stringify({ prompts }),
     })
     const data = await response.json()
 
@@ -112,10 +116,47 @@ const Zen = () => {
         {!loading && <ImageLoader src="https://img.freepik.com/free-photo/ultra-detailed-nebula-abstract-wallpaper-4_1562-749.jpg?w=740&t=st=1721791331~exp=1721791931~hmac=fae8f8967cdd4cae30672efe3ad3a3d19697ac5f34de62773e5e75c7d68bf816" />}
         {text && <FadeText fadeOut={fadeOutText} text={text} onComplete={handleDoneFading} />}
         {startTranscriber && <Transcriber enableMicrophone={enableMicrophone} onTranscription={handleTranscription} />}
-        {playAmbient && <AudioPlayer title="ambient" videoId="DVHaSmW9QNA" />}
-        {playSoundFX && <AudioPlayerWithVolume title="sound fx" volume={20} videoId="X0NgSuFY2bk" />}
-        {playMusic && <AudioPlayer title="music" videoId="eD2uecOlPvQ" />}
-        {text && <TextToSpeech text={text} onEnd={handleAudioEnded} />}
+        {playAmbient && <AudioPlayerWithVolume title="ambient" volume={ambientVolume} videoId="DVHaSmW9QNA" />}
+        {playSoundFX && <AudioPlayerWithVolume title="sound fx" volume={soundFXVolume} videoId="X0NgSuFY2bk" />}
+        {playMusic && <AudioPlayerWithVolume title="music" volume={musicVolume} videoId="eD2uecOlPvQ" />}
+        {text && <TextToSpeech text={text} volume={speechVolume / 100} onEnd={handleAudioEnded} />}
+
+        {!loading && (
+          <Box sx={{ minWidth: '20em' }} position="absolute" bottom={20} left={20}>
+            <Typography color='#fff'>Speech</Typography>
+            <Slider
+              value={speechVolume}
+              onChange={(e, newValue) => setSpeechVolume(newValue)}
+              min={0}
+              max={100}
+              valueLabelDisplay="auto"
+            />
+            <Typography color='#fff'>Ambient</Typography>
+            <Slider
+              value={ambientVolume}
+              onChange={(e, newValue) => setAmbientVolume(newValue)}
+              min={0}
+              max={100}
+              valueLabelDisplay="auto"
+            />
+            <Typography color='#fff'>Waves</Typography>
+            <Slider
+              value={soundFXVolume}
+              onChange={(e, newValue) => setSoundFXVolume(newValue)}
+              min={0}
+              max={100}
+              valueLabelDisplay="auto"
+            />
+            <Typography color='#fff'>Music</Typography>
+            <Slider
+              value={musicVolume}
+              onChange={(e, newValue) => setMusicVolume(newValue)}
+              min={0}
+              max={100}
+              valueLabelDisplay="auto"
+            />
+          </Box>
+        )}
       </Box>
     </section>
   )
