@@ -1,7 +1,15 @@
 import React, { useState } from 'react'
 import Zen from './Zen'
-import { Button, Box } from '@mui/material'
+import { Button, Box, styled } from '@mui/material'
 import './styles.css'
+
+const DarkerButton = styled(Button)(({ theme }) => ({
+  backgroundColor: '#002d59',
+  color: theme.palette.primary.contrastText,
+  '&:hover': {
+    backgroundColor: '#003365'
+  }
+}))
 
 const App: React.FC = () => {
   const [showZen, setShowZen] = useState(false)
@@ -16,17 +24,17 @@ const App: React.FC = () => {
       justifyContent="center" 
       alignItems="center" 
       height="100vh" 
-      bgcolor="#f5f5f5"
+      bgcolor="#00041c"
     >
       {!showZen ? (
-        <Button 
+        <DarkerButton 
           variant="contained" 
           color="primary" 
           onClick={handleStart}
           size="large"
         >
           Start Zen
-        </Button>
+        </DarkerButton>
       ) : (
         <Zen />
       )}

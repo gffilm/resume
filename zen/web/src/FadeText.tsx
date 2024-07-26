@@ -1,50 +1,45 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, Typography, styled } from '@mui/material'
-import { CSSTransition } from 'react-transition-group'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react';
+import { Grid, Typography } from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
+import PropTypes from 'prop-types';
 
-const FadeTypography = styled(Typography)(({ theme }) => ({
-  opacity: 0,
-  transition: 'opacity 1s ease-in-out',
-  '&.fade-enter-active': {
-    opacity: 1,
-  },
-  '&.fade-exit': {
-    opacity: 1,
-  },
-  '&.fade-exit-active': {
-    opacity: 0,
-  },
-}))
+const FadeTypography = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 1 }}
+  >
+    <Typography color="white" variant="h4">
+      {children}
+    </Typography>
+  </motion.div>
+);
 
 const FadeText = ({ text }) => {
-  const [showText, setShowText] = useState(false)
+  const [currentText, setCurrentText] = useState(text);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowText(true)
-    })
-
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [])
+    console.log('text', text);
+    setCurrentText(text);
+  }, [text]);
 
   return (
-    <Grid className="text-overlay">
-      <CSSTransition
-        in={showText}
-        timeout={30000}
-        classNames="fade"
-        mountOnEnter
-        unmountOnExit
-      >
-        <FadeTypography color="white" variant="h4">
-          {text}
-        </FadeTypography>
-      </CSSTransition>
+    <Grid
+      container
+      justifyContent="center"
+      style={{ height: '100vh', padding: '10em' }}
+      className="text-overlay"
+    >
+      <AnimatePresence mode="wait">
+        <FadeTypography key={currentText}>{currentText}</FadeTypography>
+      </AnimatePresence>
     </Grid>
-  )
-}
+  );
+};
 
-export default FadeText
+FadeText.propTypes = {
+  text: PropTypes.string.isRequired,
+};
+
+export default FadeText;
