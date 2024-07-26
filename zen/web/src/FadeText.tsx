@@ -17,7 +17,7 @@ const FadeTypography = styled(Typography)(({ theme }) => ({
   },
 }))
 
-const FadeText = ({ text, fadeOut, onComplete }) => {
+const FadeText = ({ text }) => {
   const [showText, setShowText] = useState(false)
 
   useEffect(() => {
@@ -30,12 +30,6 @@ const FadeText = ({ text, fadeOut, onComplete }) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (fadeOut) {
-      setShowText(false)
-    }
-  }, [fadeOut])
-
   return (
     <Grid className="text-overlay">
       <CSSTransition
@@ -44,7 +38,6 @@ const FadeText = ({ text, fadeOut, onComplete }) => {
         classNames="fade"
         mountOnEnter
         unmountOnExit
-        onExited={onComplete}
       >
         <FadeTypography color="white" variant="h4">
           {text}
